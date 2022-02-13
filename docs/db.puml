@@ -1,7 +1,0 @@
-@beginuml
-@startuml
-!theme reddress-lightorange 
-'skinparam linetype ortho'
-caption Схема базы данных
-scale 2.0
-@enduml

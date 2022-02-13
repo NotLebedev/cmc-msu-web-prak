@@ -16,10 +16,10 @@ mainPage -d-> depListPage : Все подразделения
 empListPage -d-> empPage : Выбранный служащий
 depListPage <-d-> depPage : Выбранное подразделение
 
-depPage -u--> empListPage : Служащие, работаюие\nв департаменте
+depPage -u--> empListPage : Служащие, работаюие\nв подразделении
 
 empListPage -[hidden]r-> depListPage
 
 empPage -d-> rankPage : Должности выбранного служащего
-
+rankPage -r-> depPage : Подразделение должности
 @enduml

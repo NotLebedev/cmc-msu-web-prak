@@ -1,0 +1,25 @@
+@startuml
+!theme reddress-lightorange
+'skinparam linetype ortho'
+caption Схема навигации страниц
+scale 2.0
+component [Главная страница] as mainPage
+component [Список служащих] as empListPage
+component [Список подразделений] as depListPage
+component [Информация о служащем] as empPage
+component [Информация о подразделении] as depPage
+component [История должностей] as rankPage
+
+mainPage -d-> empListPage : Все служащие
+mainPage -d-> depListPage : Все подразделения
+
+empListPage -d-> empPage : Выбранный служащий
+depListPage <-d-> depPage : Выбранное подразделение
+
+depPage -u--> empListPage : Служащие, работаюие\nв департаменте
+
+empListPage -[hidden]r-> depListPage
+
+empPage -d-> rankPage : Должности выбранного служащего
+
+@enduml

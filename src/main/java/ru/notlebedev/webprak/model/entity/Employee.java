@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 @Getter
 @Setter
 @ToString
@@ -26,6 +26,14 @@ public class Employee implements GenericEntity<Long> {
     @Column(nullable = false, name = "address")
     @NonNull
     private String address;
+
+    @Column(nullable = false, name = "education_level")
+    @NonNull
+    private String educationLevel;
+
+    @Column(nullable = false, name = "education_place")
+    @NonNull
+    private String educationPlace;
 
     @Override
     public boolean equals(Object o) {

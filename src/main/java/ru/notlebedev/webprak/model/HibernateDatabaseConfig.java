@@ -12,7 +12,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-public class HibernateXMLConfig {
+public class HibernateDatabaseConfig {
     @Value("${db_url}")
     private String db_url;
     @Value("${db_username}")

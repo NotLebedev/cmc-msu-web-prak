@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.notlebedev.webprak.model.entity.Department.Status.ACTIVE;
 import static ru.notlebedev.webprak.model.entity.Department.Status.DEFUNCT;
 
@@ -29,7 +30,7 @@ public class DepartmentDAOTest {
 
     @Test
     void testEmptyFilter() {
-        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder().build();
         Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
@@ -46,8 +47,8 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByName() {
-        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
-        filter.setName("Заготов");
+        DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder()
+                .name("Заготов").build();
         Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
@@ -61,9 +62,8 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByNameByStatus0() {
-        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
-        filter.setName("Заготов");
-        filter.setStatus(ACTIVE);
+        DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder()
+                .name("Заготов").status(ACTIVE).build();
         Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
@@ -76,9 +76,8 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByNameByStatus1() {
-        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
-        filter.setName("Заготов");
-        filter.setStatus(DEFUNCT);
+        DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder()
+                        .name("Заготов").status(DEFUNCT).build();
         Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
@@ -89,8 +88,8 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByStatus() {
-        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
-        filter.setStatus(ACTIVE);
+        DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder()
+                .status(ACTIVE).build();
         Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
@@ -105,6 +104,7 @@ public class DepartmentDAOTest {
 
     @Test
     void testHierarchy() {
+        assertTrue(departmentDAO.findById(1L).isPresent());
         Department dep1 = departmentDAO.findById(1L).get();
         //departmentDAO.initialize(dep1);
         Collection<Department> res1 = dep1.getChildren();

@@ -23,7 +23,7 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
 
             String pattern = "%" + name + "%"; // Any name containing substring
             criteriaQuery.where(builder.like(root.get("name"), pattern));
-            return session.createQuery(criteriaQuery).getResultList();
+            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }
 
@@ -38,7 +38,7 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
             criteriaQuery.where(builder.and(
                     builder.like(root.get("name"), pattern),
                     builder.equal(root.get("status"), status)));
-            return session.createQuery(criteriaQuery).getResultList();
+            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }
 

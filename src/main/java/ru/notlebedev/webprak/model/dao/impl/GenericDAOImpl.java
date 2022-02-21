@@ -56,7 +56,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
     @Override
     public Optional<T> findById(ID id) {
         try (Session session = sessionFactory.openSession()) {
-            return Optional.ofNullable(session.get(typeT, id));
+            return applyInitialize(Optional.ofNullable(session.get(typeT, id)));
         }
     }
 
@@ -75,7 +75,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<T> criteriaQuery = session.getCriteriaBuilder().createQuery(typeT);
             criteriaQuery.from(typeT);
-            return session.createQuery(criteriaQuery).getResultList();
+            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }
 
@@ -108,6 +108,13 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
-    @Override
-    public void initialize(T entity) {}
+    protected final Collection<T> applyInitialize(Collection<T> t) {
+        t.forEach(this::initialize);
+        return t;
+    }
+
+    protected final Optional<T> applyInitialize(Optional<T> t) {
+        t.ifPresent(this::initialize);
+        return t;
+    }
 }

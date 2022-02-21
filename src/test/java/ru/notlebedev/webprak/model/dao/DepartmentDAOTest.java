@@ -11,10 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import ru.notlebedev.webprak.model.entity.Department;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,25 +31,25 @@ public class DepartmentDAOTest {
     void testGetByName() {
         Collection<Department> res = departmentDAO.getDepartmentByName("Заготов");
 
-        List<String> namesExpected = new ArrayList<>();
+        Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка копыт");
         namesExpected.add("Заготовка рогов");
         namesExpected.add("Заготовки");
         namesExpected.add("Заготовка хвостов");
 
-        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toList()));
+        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toSet()));
     }
 
     @Test
     void testGetByNameByStatus0() {
         Collection<Department> res = departmentDAO.getDepartmentByNameByStatus("Заготов", ACTIVE);
 
-        List<String> namesExpected = new ArrayList<>();
+        Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка копыт");
         namesExpected.add("Заготовка рогов");
         namesExpected.add("Заготовки");
 
-        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toList()));
+        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toSet()));
     }
 
     @Test

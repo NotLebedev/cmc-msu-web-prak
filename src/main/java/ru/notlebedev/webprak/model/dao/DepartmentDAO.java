@@ -9,6 +9,12 @@ import java.util.Collection;
 public interface DepartmentDAO extends GenericDAO<Department, Long> {
     Collection<Department> getByFilter(Filter filter);
 
+    /**
+     * @return Set of all top level departments with
+     * children initialized to the bottom of hierarchy
+     */
+    Collection<Department> getHierarchy();
+
     @Builder
     @Getter
     class Filter {

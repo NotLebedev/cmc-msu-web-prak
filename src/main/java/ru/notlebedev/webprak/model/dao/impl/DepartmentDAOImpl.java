@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
@@ -37,5 +39,15 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
 
             return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
+    }
+
+    @Override
+    public Collection<Department> getHierarchy() {
+        Collection<Department> departments = getByFilter(DepartmentDAO.getFilterBuilder()
+                .status(Department.Status.ACTIVE).build());
+
+        return departments.stream()
+                .filter(department -> Objects.isNull(department.getDepartmentSuper()))
+                .collect(Collectors.toList());
     }
 }

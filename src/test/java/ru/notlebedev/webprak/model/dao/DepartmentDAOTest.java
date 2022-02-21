@@ -14,6 +14,7 @@ import ru.notlebedev.webprak.model.entity.Department;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.notlebedev.webprak.model.entity.Department.Status.ACTIVE;
 import static ru.notlebedev.webprak.model.entity.Department.Status.DEFUNCT;
@@ -102,7 +103,7 @@ public class DepartmentDAOTest {
     }
 
     @Test
-    void testHierarchy() {
+    void testInitialization() {
         assertTrue(departmentDAO.findById(1L).isPresent());
         Department dep1 = departmentDAO.findById(1L).get();
 
@@ -113,6 +114,38 @@ public class DepartmentDAOTest {
         Collection<Department> res1 = dep1.getChildren();
         assertEquals(Set.of("Бухгалтерия", "Заготовки"),
                 res1.stream().map(Department::getName).collect(Collectors.toSet()));
+    }
+
+    @Test
+    void testGetHierarchy() {
+        Collection<Department> heads = departmentDAO.getHierarchy();
+        assertEquals(1, heads.size());
+
+        List<Department> departments = new ArrayList<>();
+        departments.add(new Department("ООО \"Рога и Копыта\"", ACTIVE));
+        departments.add(new Department("Бухгалтерия", ACTIVE));
+        departments.add(new Department("Заготовка копыт", ACTIVE));
+        departments.add(new Department("Заготовка рогов", ACTIVE));
+        departments.add(new Department("Заготовки", ACTIVE));
+
+        departments.get(1).setDepartmentSuper(departments.get(0));
+        departments.get(4).setDepartmentSuper(departments.get(0));
+        departments.get(2).setDepartmentSuper(departments.get(4));
+        departments.get(3).setDepartmentSuper(departments.get(4));
+
+        departments.get(0).setChildren(Set.of(departments.get(1), departments.get(4)));
+        departments.get(1).setChildren(new HashSet<>());
+        departments.get(2).setChildren(new HashSet<>());
+        departments.get(3).setChildren(new HashSet<>());
+        departments.get(4).setChildren(Set.of(departments.get(2), departments.get(3)));
+
+        Department head = heads.stream().findAny().orElse(null);
+        assertNotNull(head);
+
+        assertThat(head)
+                .usingRecursiveComparison()
+                .ignoringFieldsMatchingRegexes(".*id", ".*positions")
+                .isEqualTo(departments.get(0));
     }
 
     @BeforeEach

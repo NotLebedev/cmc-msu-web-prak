@@ -20,9 +20,9 @@ import java.util.Optional;
 @Repository
 abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         implements GenericDAO<T, ID> {
-    private SessionFactory sessionFactory;
-    Class<T> typeT = ReflectionMagic.getGeneric(getClass(), 0);
-    Class<ID> typeID = ReflectionMagic.getGeneric(getClass(), 1);
+    protected SessionFactory sessionFactory;
+    private final Class<T> typeT = ReflectionMagic.getGeneric(getClass(), 0);
+    private final Class<ID> typeID = ReflectionMagic.getGeneric(getClass(), 1);
 
     @Autowired
     public void setSessionFactory(LocalSessionFactoryBean sessionFactory) {
@@ -34,12 +34,21 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         if (entity.getId() != null)
             entity.setId(null);
         try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
             session.save(entity);
+            session.getTransaction().commit();
         }
     }
 
     public void saveAll(Collection<T> entities) {
-        entities.forEach(this::save);
+        entities.stream()
+                .filter(entity -> entity.getId() != null)
+                .forEach(entity -> entity.setId(null));
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            entities.forEach(session::save);
+            session.getTransaction().commit();
+        }
     }
 
     public Optional<T> findById(ID id) {

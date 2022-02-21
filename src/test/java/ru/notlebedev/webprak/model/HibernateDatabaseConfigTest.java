@@ -10,7 +10,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations= "classpath:application.properties")
 class HibernateDatabaseConfigTest {
     @Autowired
     private LocalSessionFactoryBean sessionFactory;

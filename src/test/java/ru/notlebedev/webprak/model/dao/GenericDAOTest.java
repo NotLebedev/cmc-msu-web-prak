@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations= "classpath:application.properties")
 class GenericDAOTest {
     @Autowired
     private TestEntityDAO testEntityDao;

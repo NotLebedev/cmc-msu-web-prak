@@ -20,7 +20,7 @@ import static ru.notlebedev.webprak.model.entity.Department.Status.DEFUNCT;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations= "classpath:application.properties")
 public class DepartmentDAOTest {
     @Autowired
     private DepartmentDAO departmentDAO;

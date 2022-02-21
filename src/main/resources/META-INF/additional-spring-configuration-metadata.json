@@ -3,7 +3,7 @@
     {
       "name": "db_url",
       "type": "java.lang.String",
-      "description": "Url of database (fully qualified in format jdbc:postgresql://<url>."
+      "description": "Url of database (fully qualified in format jdbc:postgresql://<url>)."
     },
     {
       "name": "db_username",

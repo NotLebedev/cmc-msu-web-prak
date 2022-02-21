@@ -40,18 +40,4 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
             return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }
-
-    /*@Override
-    public void initialize(Department entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Department reattachedEntity = (Department) session.merge(entity);
-            Hibernate.initialize(reattachedEntity.getChildren());
-            Hibernate.initialize(reattachedEntity.getDepartmentSuper());
-            Hibernate.initialize(reattachedEntity.getPositions());
-
-            entity.setDepartmentSuper(reattachedEntity.getDepartmentSuper());
-            entity.setChildren(reattachedEntity.getChildren());
-            entity.setPositions(reattachedEntity.getPositions());
-        }
-    }*/
 }

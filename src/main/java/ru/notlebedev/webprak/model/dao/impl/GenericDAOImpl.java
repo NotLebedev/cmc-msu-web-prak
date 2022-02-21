@@ -23,7 +23,6 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         implements GenericDAO<T, ID> {
     protected SessionFactory sessionFactory;
     private final Class<T> typeT = ReflectionMagic.getGeneric(getClass(), 0);
-    private final Class<ID> typeID = ReflectionMagic.getGeneric(getClass(), 1);
 
     @Autowired
     public void setSessionFactory(LocalSessionFactoryBean sessionFactory) {
@@ -61,6 +60,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean existsById(ID id) {
         try (Session session = sessionFactory.openSession()) {
@@ -119,10 +119,10 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         return t;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initialize(T entity) {
         try (Session session = sessionFactory.openSession()) {
-            //noinspection unchecked
             T reattachedEntity = (T) session.merge(entity);
             ReflectionMagic.getLazyFields(typeT).forEach(field -> ReflectionMagic.applyToField(reattachedEntity, field,
                     aField -> {

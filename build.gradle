@@ -14,6 +14,10 @@ configurations {
     }
 
     compileJava.inputs.files(processResources)
+
+    tasks.named('test') {
+        useJUnitPlatform(null)
+    }
 }
 
 repositories {
@@ -37,8 +41,4 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

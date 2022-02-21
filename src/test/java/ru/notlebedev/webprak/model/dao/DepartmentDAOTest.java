@@ -14,8 +14,7 @@ import ru.notlebedev.webprak.model.entity.Department;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.notlebedev.webprak.model.entity.Department.Status.ACTIVE;
 import static ru.notlebedev.webprak.model.entity.Department.Status.DEFUNCT;
 
@@ -106,7 +105,11 @@ public class DepartmentDAOTest {
     void testHierarchy() {
         assertTrue(departmentDAO.findById(1L).isPresent());
         Department dep1 = departmentDAO.findById(1L).get();
-        //departmentDAO.initialize(dep1);
+
+        for (Department child : dep1.getChildren()) {
+            assertDoesNotThrow(() -> departmentDAO.initialize(child));
+        }
+
         Collection<Department> res1 = dep1.getChildren();
         assertEquals(Set.of("Бухгалтерия", "Заготовки"),
                 res1.stream().map(Department::getName).collect(Collectors.toSet()));

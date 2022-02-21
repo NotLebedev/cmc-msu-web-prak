@@ -1,6 +1,7 @@
 package ru.notlebedev.webprak.model.dao.impl;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -122,13 +123,18 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
     @SuppressWarnings("unchecked")
     @Override
     public void initialize(T entity) {
-        try (Session session = sessionFactory.openSession()) {
-            T reattachedEntity = (T) session.merge(entity);
-            ReflectionMagic.getLazyFields(typeT).forEach(field -> ReflectionMagic.applyToField(reattachedEntity, field,
-                    aField -> {
-                        Hibernate.initialize(aField.get(reattachedEntity));
-                        aField.set(entity, aField.get(reattachedEntity));
-                    }));
+        try {
+            ReflectionMagic.getLazyFields(typeT).forEach(field -> ReflectionMagic.applyToField(entity, field,
+                    aField -> Hibernate.initialize(aField.get(entity))));
+        } catch (HibernateException ignored) {
+            try (Session session = sessionFactory.openSession()) {
+                T reattachedEntity = (T) session.merge(entity);
+                ReflectionMagic.getLazyFields(typeT).forEach(field -> ReflectionMagic.applyToField(reattachedEntity, field,
+                        aField -> {
+                            Hibernate.initialize(aField.get(reattachedEntity));
+                            aField.set(entity, aField.get(reattachedEntity));
+                        }));
+            }
         }
     }
 }

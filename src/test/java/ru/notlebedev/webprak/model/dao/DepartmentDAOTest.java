@@ -56,10 +56,24 @@ public class DepartmentDAOTest {
     void testGetByNameByStatus1() {
         Collection<Department> res = departmentDAO.getDepartmentByNameByStatus("Заготов", DEFUNCT);
 
-        List<String> namesExpected = new ArrayList<>();
+        Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка хвостов");
 
-        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toList()));
+        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toSet()));
+    }
+
+    @Test
+    void testGetByStatus() {
+        Collection<Department> res = departmentDAO.getDepartmentByStatus(ACTIVE);
+
+        Set<String> namesExpected = new HashSet<>();
+        namesExpected.add("ООО \"Рога и Копыта\"");
+        namesExpected.add("Бухгалтерия");
+        namesExpected.add("Заготовка копыт");
+        namesExpected.add("Заготовка рогов");
+        namesExpected.add("Заготовки");
+
+        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toSet()));
     }
 
     @Test

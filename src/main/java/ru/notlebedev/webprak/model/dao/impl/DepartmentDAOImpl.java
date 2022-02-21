@@ -40,4 +40,16 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
             return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }
+
+    @Override
+    public Collection<Department> getDepartmentByStatus(Department.Status status) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
+            Root<Department> root = criteriaQuery.from(Department.class);
+
+            criteriaQuery.where(builder.equal(root.get("status"), status));
+            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
+        }
+    }
 }

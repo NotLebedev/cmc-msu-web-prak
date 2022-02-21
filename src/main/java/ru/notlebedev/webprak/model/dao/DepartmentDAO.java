@@ -8,4 +8,5 @@ import java.util.Collection;
 public interface DepartmentDAO extends GenericDAO<Department, Long> {
     Collection<Department> getDepartmentByName(String name);
     Collection<Department> getDepartmentByNameByStatus(String name, Status status);
+    Collection<Department> getDepartmentByStatus(Status status);
 }

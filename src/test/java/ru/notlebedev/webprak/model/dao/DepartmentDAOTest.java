@@ -68,6 +68,7 @@ public class DepartmentDAOTest {
     @Test
     void testHierarchy() {
         Department dep1 = departmentDAO.findById(1L).get();
+        departmentDAO.initialize(dep1);
         Collection<Department> res1 = dep1.getChildren();
         assertEquals(Set.of("Бухгалтерия", "Заготовки"),
                 res1.stream().map(Department::getName).collect(Collectors.toSet()));

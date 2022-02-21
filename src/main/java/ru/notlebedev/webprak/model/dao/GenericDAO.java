@@ -21,4 +21,6 @@ public interface GenericDAO<T extends GenericEntity<ID>, ID extends Number> {
     void delete(T entity);
 
     void updateSave(T entity);
+
+    void initialize(T entity);
 }

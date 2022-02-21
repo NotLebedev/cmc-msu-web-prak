@@ -29,6 +29,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         this.sessionFactory = sessionFactory.getObject();
     }
 
+    @Override
     public void save(T entity) {
         // Inserting new entities should not break sequential ordering
         if (entity.getId() != null)
@@ -40,6 +41,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public void saveAll(Collection<T> entities) {
         entities.stream()
                 .filter(entity -> entity.getId() != null)
@@ -51,12 +53,14 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public Optional<T> findById(ID id) {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(typeT, id));
         }
     }
 
+    @Override
     public boolean existsById(ID id) {
         try (Session session = sessionFactory.openSession()) {
             return session.createCriteria(typeT)
@@ -66,6 +70,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public Collection<T> findAll() {
         try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<T> criteriaQuery = session.getCriteriaBuilder().createQuery(typeT);
@@ -74,6 +79,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public long count() {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -84,6 +90,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public void delete(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -92,6 +99,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
         }
     }
 
+    @Override
     public void updateSave(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -99,4 +107,7 @@ abstract class GenericDAOImpl<T extends GenericEntity<ID>, ID extends Number>
             session.getTransaction().commit();
         }
     }
+
+    @Override
+    public void initialize(T entity) {}
 }

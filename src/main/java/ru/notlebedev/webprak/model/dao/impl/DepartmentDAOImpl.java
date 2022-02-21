@@ -1,6 +1,5 @@
 package ru.notlebedev.webprak.model.dao.impl;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import ru.notlebedev.webprak.model.dao.DepartmentDAO;
@@ -42,7 +41,7 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
         }
     }
 
-    @Override
+    /*@Override
     public void initialize(Department entity) {
         try (Session session = sessionFactory.openSession()) {
             Department reattachedEntity = (Department) session.merge(entity);
@@ -54,5 +53,5 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
             entity.setChildren(reattachedEntity.getChildren());
             entity.setPositions(reattachedEntity.getPositions());
         }
-    }
+    }*/
 }

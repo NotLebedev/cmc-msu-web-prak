@@ -8,6 +8,4 @@ import ru.notlebedev.webprak.model.entity.TestEntity;
 @Repository
 class TestEntityDAOImpl extends GenericDAOImpl<TestEntity, Long>
         implements TestEntityDAO {
-    @Override
-    public void initialize(TestEntity entity) {}
 }

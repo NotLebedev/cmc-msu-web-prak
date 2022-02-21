@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public abstract class GenericDao<T extends GenericEntity<ID>, ID extends Number> {
+public abstract class GenericDAO<T extends GenericEntity<ID>, ID extends Number> {
     private SessionFactory sessionFactory;
     Class<T> typeT = ReflectionMagic.getGeneric(getClass(), 0);
     Class<ID> typeID = ReflectionMagic.getGeneric(getClass(), 1);

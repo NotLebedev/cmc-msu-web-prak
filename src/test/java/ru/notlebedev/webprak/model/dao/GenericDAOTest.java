@@ -22,9 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations="classpath:test.properties")
-class GenericDaoTest {
+class GenericDAOTest {
     @Autowired
-    private TestEntityDao testEntityDao;
+    private TestEntityDAO testEntityDao;
 
     private SessionFactory sessionFactory;
 

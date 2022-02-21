@@ -7,48 +7,34 @@ import ru.notlebedev.webprak.model.entity.Department;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
     implements DepartmentDAO {
     @Override
-    public Collection<Department> getDepartmentByName(String name) {
+    public Collection<Department> getByFilter(Filter filter) {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
             Root<Department> root = criteriaQuery.from(Department.class);
 
-            String pattern = "%" + name + "%"; // Any name containing substring
-            criteriaQuery.where(builder.like(root.get("name"), pattern));
-            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
-        }
-    }
+            List<Predicate> predicates = new ArrayList<>();
+            if (filter.getName() != null) {
+                String pattern = "%" + filter.getName() + "%"; // Any name containing substring
+                predicates.add(builder.like(root.get("name"), pattern));
+            }
+            if (filter.getStatus() != null) {
+                predicates.add(builder.equal(root.get("status"), filter.getStatus()));
+            }
 
-    @Override
-    public Collection<Department> getDepartmentByNameByStatus(String name, Department.Status status) {
-        try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
-            Root<Department> root = criteriaQuery.from(Department.class);
+            if (predicates.size() != 0)
+                criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
-            String pattern = "%" + name + "%"; // Any name containing substring
-            criteriaQuery.where(builder.and(
-                    builder.like(root.get("name"), pattern),
-                    builder.equal(root.get("status"), status)));
-            return applyInitialize(session.createQuery(criteriaQuery).getResultList());
-        }
-    }
-
-    @Override
-    public Collection<Department> getDepartmentByStatus(Department.Status status) {
-        try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
-            Root<Department> root = criteriaQuery.from(Department.class);
-
-            criteriaQuery.where(builder.equal(root.get("status"), status));
             return applyInitialize(session.createQuery(criteriaQuery).getResultList());
         }
     }

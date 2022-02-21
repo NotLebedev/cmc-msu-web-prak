@@ -28,8 +28,27 @@ public class DepartmentDAOTest {
     private SessionFactory sessionFactory;
 
     @Test
+    void testEmptyFilter() {
+        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        Collection<Department> res = departmentDAO.getByFilter(filter);
+
+        Set<String> namesExpected = new HashSet<>();
+        namesExpected.add("ООО \"Рога и Копыта\"");
+        namesExpected.add("Бухгалтерия");
+        namesExpected.add("Заготовка копыт");
+        namesExpected.add("Заготовка рогов");
+        namesExpected.add("Заготовки");
+        namesExpected.add("Заготовка хвостов");
+        namesExpected.add("Пиар");
+
+        assertEquals(namesExpected, res.stream().map(Department::getName).collect(Collectors.toSet()));
+    }
+
+    @Test
     void testGetByName() {
-        Collection<Department> res = departmentDAO.getDepartmentByName("Заготов");
+        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        filter.setName("Заготов");
+        Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка копыт");
@@ -42,7 +61,10 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByNameByStatus0() {
-        Collection<Department> res = departmentDAO.getDepartmentByNameByStatus("Заготов", ACTIVE);
+        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        filter.setName("Заготов");
+        filter.setStatus(ACTIVE);
+        Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка копыт");
@@ -54,7 +76,10 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByNameByStatus1() {
-        Collection<Department> res = departmentDAO.getDepartmentByNameByStatus("Заготов", DEFUNCT);
+        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        filter.setName("Заготов");
+        filter.setStatus(DEFUNCT);
+        Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
         namesExpected.add("Заготовка хвостов");
@@ -64,7 +89,9 @@ public class DepartmentDAOTest {
 
     @Test
     void testGetByStatus() {
-        Collection<Department> res = departmentDAO.getDepartmentByStatus(ACTIVE);
+        DepartmentDAO.Filter filter = new DepartmentDAO.Filter();
+        filter.setStatus(ACTIVE);
+        Collection<Department> res = departmentDAO.getByFilter(filter);
 
         Set<String> namesExpected = new HashSet<>();
         namesExpected.add("ООО \"Рога и Копыта\"");

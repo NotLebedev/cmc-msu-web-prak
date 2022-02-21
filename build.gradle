@@ -12,6 +12,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    compileJava.inputs.files(processResources)
 }
 
 repositories {
@@ -26,6 +28,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.18'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.hibernate:hibernate-core:5.6.5.Final'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     testImplementation 'org.postgresql:postgresql:42.2.18'
     testImplementation 'org.hibernate:hibernate-core:5.6.5.Final'

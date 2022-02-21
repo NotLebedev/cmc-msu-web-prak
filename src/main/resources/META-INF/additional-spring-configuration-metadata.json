@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "db_url",
+      "type": "java.lang.String",
+      "description": "Url of database (fully qualified in format jdbc:postgresql://<url>."
+    },
+    {
+      "name": "db_username",
+      "type": "java.lang.String",
+      "description": "Username for database at db_url."
+    },
+    {
+      "name": "db_password",
+      "type": "java.lang.String",
+      "description": "Password for database at db_url."
+    },
+    {
+      "name": "db_schema",
+      "type": "java.lang.String",
+      "description": "Database schema to use."
+    }
+  ] }

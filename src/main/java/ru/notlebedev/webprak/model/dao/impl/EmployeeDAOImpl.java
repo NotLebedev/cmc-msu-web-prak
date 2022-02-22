@@ -46,11 +46,27 @@ public class EmployeeDAOImpl extends GenericDAOImpl<Employee, Long>
 
     @Override
     public Collection<String> getKnownEducationLevels() {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class);
+            Root<Employee> root = criteriaQuery.from(Employee.class);
+            criteriaQuery.distinct(true);
+            criteriaQuery.select(root.get("educationLevel"));
+
+            return session.createQuery(criteriaQuery).getResultList();
+        }
     }
 
     @Override
     public Collection<String> getKnownEducationPlaces() {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class);
+            Root<Employee> root = criteriaQuery.from(Employee.class);
+            criteriaQuery.distinct(true);
+            criteriaQuery.select(root.get("educationPlace"));
+
+            return session.createQuery(criteriaQuery).getResultList();
+        }
     }
 }

@@ -113,25 +113,18 @@ public class EmployeeDAOTest {
     void testGetKnownEducationLevels() {
         Collection<String> res = employeeDAO.getKnownEducationLevels();
 
-        Set<String> levelsExpected = new HashSet<>();
-        levelsExpected.add("Среднее");
-        levelsExpected.add("Высшее");
-
-        assertThat(levelsExpected)
-                .isEqualTo(res);
+        assertThat(res)
+                .containsExactlyInAnyOrder("Среднее", "Высшее");
     }
 
     @Test
     void testGetKnownEducationPlaces() {
         Collection<String> res = employeeDAO.getKnownEducationPlaces();
 
-        Set<String> placesExpected = new HashSet<>();
-        placesExpected.add("Московский Аграрный Техникум");
-        placesExpected.add("Томский Финансовый Университет");
-        placesExpected.add("Новгородский Макароноварительный Техникум");
-
-        assertThat(placesExpected)
-                .isEqualTo(res);
+        assertThat(res)
+                .containsExactlyInAnyOrder("Московский Аграрный Техникум",
+                        "Томский Финансовый Университет",
+                        "Новгородский Макароноварительный Техникум");
     }
 
     @BeforeEach

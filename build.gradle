@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'ru.notlebedev'
@@ -16,7 +17,7 @@ configurations {
     compileJava.inputs.files(processResources)
 
     tasks.named('test') {
-        useJUnitPlatform(null)
+        useJUnitPlatform()
     }
 }
 
@@ -42,4 +43,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+jacocoTestReport {
+    dependsOn test
 }

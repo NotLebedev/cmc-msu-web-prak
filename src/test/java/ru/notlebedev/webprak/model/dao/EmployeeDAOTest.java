@@ -137,14 +137,16 @@ public class EmployeeDAOTest {
     @BeforeEach
     void setup() {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("Иван Иванов", "ул. Кедровая, дом 48, квартира 97",
+        employees.add(new Employee("Иван Иванович", "ул. Кедровая, дом 48, квартира 97",
                 "Среднее", "Московский Аграрный Техникум"));
         employees.add(new Employee("Прасковья Аркадьевна", "ул. Егорьевский проезд, дом 98, квартира 532",
                 "Высшее", "Томский Финансовый Университет"));
         employees.add(new Employee("Христофор Геннадиевич", "ул. Кунцевская, дом 7, квартира 533",
                 "Среднее", "Новгородский Макароноварительный Техникум"));
-        employees.add(new Employee("Иван Петров", "ул. Кедровая, дом 45, квартира 6",
+        employees.add(new Employee("Иван Петрович", "ул. Кедровая, дом 45, квартира 6",
                 "Среднее", "Московский Аграрный Техникум"));
+
+        employeeDAO.saveAll(employees);
     }
 
     @AfterEach

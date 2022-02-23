@@ -41,7 +41,16 @@ class ReflectionMagicTest {
     }
 
     @Test
-    void applyToField() {
+    void applyToField() throws NoSuchFieldException {
+        ApplyToFieldTestClass obj = new ApplyToFieldTestClass();
+        ReflectionMagic.FieldConsumer updateString = (field) -> field.set(obj, "str");
+
+        ReflectionMagic.applyToField(obj, ApplyToFieldTestClass.class.getDeclaredField("pub"), updateString);
+        ReflectionMagic.applyToField(obj, ApplyToFieldTestClass.class.getDeclaredField("prv"), updateString);
+        ReflectionMagic.applyToField(obj, ApplyToFieldTestClass.class.getDeclaredField("prt"), updateString);
+        ReflectionMagic.applyToField(obj, ApplyToFieldTestClass.class.getDeclaredField("pck"), updateString);
+
+        obj.assertFields();
     }
 
     private static abstract class GenericTestClass<T, V extends Number, K extends T> {
@@ -67,5 +76,19 @@ class ReflectionMagicTest {
 
         @OneToMany(fetch = FetchType.LAZY)
         private String oneToManyLazy;
+    }
+
+    private static class ApplyToFieldTestClass {
+        public String pub = "";
+        private String prv = "";
+        protected String prt = "";
+        String pck = "";
+
+        public void assertFields() {
+            assertEquals("str", pub);
+            assertEquals("str", prv);
+            assertEquals("str", prt);
+            assertEquals("str", pck);
+        }
     }
 }

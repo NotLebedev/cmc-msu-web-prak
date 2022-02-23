@@ -77,7 +77,3 @@ task stage(type: Copy) {
         'app.jar'
     }
 }
-
-clean << {
-    project.file('app.jar').delete()
-}

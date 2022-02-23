@@ -22,6 +22,7 @@ public class Position implements GenericEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "dep_id")
     @NonNull
+    @ToString.Exclude
     private Department department;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "position")

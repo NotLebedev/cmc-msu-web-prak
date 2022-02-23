@@ -65,10 +65,19 @@ test {
     reports.html.outputLocation = layout.buildDirectory.dir('resources/main/static/reports/junit')
 }
 
-task stage {
+task stage(type: Copy) {
     dependsOn clean
     dependsOn build
     dependsOn jacocoTestReport
     build.mustRunAfter clean
     jacocoTestReport.mustRunAfter clean
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+
+clean << {
+    project.file('app.jar').delete()
 }

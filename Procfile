@@ -1,1 +1,1 @@
-web: java -classpath build/classes/java/main:build/resources/main -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 -XX:TieredStopAtLevel=1 -noverify -Dspring.output.ansi.enabled=always -Dcom.sun.management.jmxremote -Dspring.jmx.enabled=true -Dspring.liveBeansView.mbeanDomain -Dspring.application.admin.enabled=true -Dserver.port=$PORT -jar build/libs/webprak-0.0.1-SNAPSHOT.jar ru.notlebedev.webprak.WebprakApplication
+web: ./gradlew bootRun

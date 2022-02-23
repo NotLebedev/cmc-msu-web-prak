@@ -2,9 +2,14 @@ package ru.notlebedev.webprak;
 
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,7 +31,13 @@ class ReflectionMagicTest {
     }
 
     @Test
-    void getLazyFields() {
+    void getLazyFields() throws NoSuchFieldException {
+        List<Field> fields = ReflectionMagic.getLazyFields(GetLazyFieldsTestClass.class);
+
+        assertThat(fields)
+                .containsExactlyInAnyOrder(
+                        GetLazyFieldsTestClass.class.getDeclaredField("manyToOneLazy"),
+                        GetLazyFieldsTestClass.class.getDeclaredField("oneToManyLazy"));
     }
 
     @Test
@@ -42,4 +53,19 @@ class ReflectionMagicTest {
     private static class GenericTestClassImpl0 extends GenericTestClass<Number, Integer, Double> {}
     private static class GenericTestClassImpl1 extends GenericTestClass<List<Integer>, Integer, ArrayList<Integer>> {}
     private static class GenericTestClassImpl2<T, V extends Number, K extends T> extends GenericTestClass<T, V, K> {}
+
+    private static class GetLazyFieldsTestClass {
+        private String notAnnotated;
+
+        @ManyToOne(fetch = FetchType.EAGER)
+        private String notLazy0;
+        @OneToMany(fetch = FetchType.EAGER)
+        private String notLazy1;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        private String manyToOneLazy;
+
+        @OneToMany(fetch = FetchType.LAZY)
+        private String oneToManyLazy;
+    }
 }

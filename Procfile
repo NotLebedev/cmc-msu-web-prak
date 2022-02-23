@@ -1,1 +1,1 @@
-web: java $JAVA_TOOL_OPTIONS -Dserver.port=$PORT -jar app.jar
+web: java -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 -XX:TieredStopAtLevel=1 -noverify -Dspring.output.ansi.enabled=always -Dcom.sun.management.jmxremote -Dspring.jmx.enabled=true -Dspring.liveBeansView.mbeanDomain -Dspring.application.admin.enabled=true -Dserver.port=$PORT -jar app.jar

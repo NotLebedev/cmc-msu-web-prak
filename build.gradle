@@ -64,3 +64,9 @@ jacocoTestReport {
 test {
     reports.html.outputLocation = layout.buildDirectory.dir('resources/main/static/reports/junit')
 }
+
+task stage {
+    dependsOn jacocoTestReport
+    dependsOn bootRun
+    bootRun.mustRunAfter(jacocoTestReport)
+}

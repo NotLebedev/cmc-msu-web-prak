@@ -57,12 +57,12 @@ jacocoTestReport {
     reports {
         xml.required = false
         csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('resources/main/static/reports/jacoco')
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco')
     }
 }
 
 test {
-    reports.html.outputLocation = layout.buildDirectory.dir('resources/main/static/reports/junit')
+    reports.html.outputLocation = layout.buildDirectory.dir('reports/junit')
 }
 
 task stage {

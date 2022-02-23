@@ -11,6 +11,6 @@ public class StaticResourceConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/health.html").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/reports/**").addResourceLocations("file:/home/artemiy/Documents/cmc-msu-web-prak/build/reports/");
+        registry.addResourceHandler("/reports/**").addResourceLocations("file:./build/reports/");
     }
 }

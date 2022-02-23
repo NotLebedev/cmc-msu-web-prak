@@ -16,8 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -42,13 +41,29 @@ class GenericDAOTest {
     }
 
     @Test
-    void saveIdUpdateTest() {
+    void saveIdTest() {
         TestEntity entity = new TestEntity("Qwe");
         entity.setId(10L);
 
         testEntityDao.save(entity);
 
         assertEquals(1, entity.getId());
+    }
+
+    @Test
+    void saveAllIdTest() {
+        List<TestEntity> entities = new ArrayList<>();
+        entities.add(new TestEntity("qwe"));
+        entities.add(new TestEntity("qwe"));
+        entities.add(new TestEntity("qwe"));
+
+        for (int i = 0; i < 3; i++)
+            entities.get(i).setId(100L + i);
+
+        testEntityDao.saveAll(entities);
+
+        for (int i = 0; i < 3; i++)
+            assertEquals(i + 1, entities.get(i).getId());
     }
 
     @Test
@@ -79,6 +94,7 @@ class GenericDAOTest {
         assertTrue(testEntityDao.existsById(1L));
         assertTrue(testEntityDao.existsById(2L));
         assertTrue(testEntityDao.existsById(3L));
+        assertFalse(testEntityDao.existsById(4L));
     }
 
     @Test

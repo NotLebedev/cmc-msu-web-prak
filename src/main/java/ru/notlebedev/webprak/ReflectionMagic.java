@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReflectionMagic {
+    private ReflectionMagic(){}
+
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getGeneric(Class<?> clazz, int paramNum) {
         Type param = ((ParameterizedType) clazz.getGenericSuperclass())

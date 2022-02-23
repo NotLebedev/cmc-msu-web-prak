@@ -21,6 +21,7 @@ public class PositionHistoryEntry implements GenericEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "position_id")
     @ToString.Exclude
+    @NonNull
     private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1>Welcome</h1>
+<h2 th:utext="${message}">..!..</h2>
+
+<div class="footer">
+    <hr class="footer-hr">
+    <div class="footer-content">
+        <a th:href="@{/health.html}">Состояние релиза</a>
+    </div>
+</div>
+
+</body>
+
+</html>

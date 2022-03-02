@@ -1,0 +1,26 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: white;
+    text-align: center;
+}
+
+.footer-hr {
+    color: lightgray;
+}
+
+.footer-content {
+    padding-top: 5px;
+    padding-bottom: 15px;
+}
+
+.footer-content > a:link {
+    color: #7d7c7c;
+}
+
+.footer-content > a:visited {
+    color: #9a9a9a;
+}

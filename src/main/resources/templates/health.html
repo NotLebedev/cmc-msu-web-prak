@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Состояние релиза</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <h1>Отчёт о функционировании последнего релиза</h1>
 <a href="reports/junit/index.html">Отчёт прохождения Junit тестов</a>
 <br>
 <a href="reports/jacoco/index.html">Отчёт покртыия Jacoco</a>
+
+<div th:insert="footer"></div>
 </body>
 </html>

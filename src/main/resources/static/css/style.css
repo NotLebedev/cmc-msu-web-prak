@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, serif;
+}
+
 .footer {
     position: fixed;
     left: 0;
@@ -23,4 +27,14 @@
 
 .footer-content > a:visited {
     color: #9a9a9a;
+}
+
+.footer-content > p {
+    color: #7d7c7c;
+}
+
+.footer-content > * {
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 10px;
 }

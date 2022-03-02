@@ -9,13 +9,8 @@
 <h1>Welcome</h1>
 <h2 th:utext="${message}">..!..</h2>
 
-<div class="footer">
-    <hr class="footer-hr">
-    <div class="footer-content">
-        <a th:href="@{/health.html}">Состояние релиза</a>
-    </div>
-</div>
 
+<div th:insert="footer"></div>
 </body>
 
 </html>

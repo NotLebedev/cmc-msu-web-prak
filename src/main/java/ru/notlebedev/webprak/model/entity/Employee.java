@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -33,6 +34,10 @@ public class Employee implements GenericEntity<Long> {
     @Column(nullable = false, name = "education_place")
     @NonNull
     private String educationPlace;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee")
+    @ToString.Exclude
+    private Set<PositionHistoryEntry> positions;
 
     @Override
     public boolean equals(Object o) {

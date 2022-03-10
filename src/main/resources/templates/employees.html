@@ -27,7 +27,7 @@
         <tr th:each="employee : ${employees}">
             <td><span th:text="${employee.getName()}"> Имя </span></td>
             <td><span th:text="${employee.getAddress()}"> Адрес </span></td>
-            <td><span th:text="${employee.getName()}"> Должность </span></td>
+            <td><span th:text="${employee.getCurrentPosition()}"> Должность </span></td>
         </tr>
     </tbody>
 </table>

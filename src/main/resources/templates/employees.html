@@ -6,6 +6,31 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
+<form action="#" th:action="@{/employees}" method="get">
+    <div>
+        <label>
+            Имя:
+            <input type="text" name="name">
+        </label>
+        <label>
+            <select name="educationLevel" autocomplete="off">
+                <option style="display: none" th:selected th:disabled th:value>---Уровень образования---</option>
+                <option th:each="level : ${educationLevels}" th:value="${level}"
+                        th:text="${level}">Уровень</option>
+            </select>
+        </label>
+        <label>
+            <input onmouseover="focus();old = value;" onmousedown = "value = '';" onmouseup="value = old;"
+                   autoComplete="on" list="suggestions" placeholder="-- Образовательная организация --"
+                   type="text" name="educationPlace" style = "width:300px;" />
+            <datalist id="suggestions">
+                <option th:each="place : ${educationPlaces}" th:value="${place}"
+                        th:text="${place}">Организация</option>
+            </datalist>
+        </label>
+    </div>
+    <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
+</form>
 <table>
     <thead>
         <tr>

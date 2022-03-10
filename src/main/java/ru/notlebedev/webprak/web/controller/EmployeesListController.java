@@ -1,16 +1,14 @@
 package ru.notlebedev.webprak.web.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.notlebedev.webprak.model.dao.EmployeeDAO;
 import ru.notlebedev.webprak.model.entity.Employee;
 import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
+import ru.notlebedev.webprak.web.model.EmployeeSearch;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +22,7 @@ public class EmployeesListController {
         this.employeeDAO = employeeDAO;
     }
 
-    @RequestMapping(value = "/employees", method = RequestMethod.GET)
+    @GetMapping(value = "/employees")
     public String employees(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "address", required = false) String address,
@@ -40,23 +38,41 @@ public class EmployeesListController {
 
         Collection<Employee> employeesDisplayed = employeeDAO.getByFilter(filter);
         List<TableEntry> entries = employeesDisplayed.parallelStream()
-                .map(emp -> new TableEntry(emp.getName(), emp.getAddress(),
-                        emp.getPositions().stream().filter(pos ->
-                                        pos.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
-                                .map(PositionHistoryEntry::getPosition)
-                                .map(Position::getName)
-                                .findAny().orElse("Не работает")))
-                .collect(Collectors.toList());
+                .map(TableEntry::new).collect(Collectors.toList());
+
         model.addAttribute("employees", entries);
+        model.addAttribute("search", new EmployeeSearch());
+
+        model.addAttribute("educationLevels", employeeDAO.getKnownEducationLevels());
+        model.addAttribute("educationPlaces", employeeDAO.getKnownEducationPlaces());
+
+        return "employees";
+    }
+
+    @PostMapping(value = "/employees")
+    public String employees(
+            @ModelAttribute EmployeeSearch search,
+            Model model) {
+
 
         return "employees";
     }
 
     @Getter
-    @AllArgsConstructor
     private static class TableEntry {
         private final String name;
         private final String address;
         private final String currentPosition;
+
+        public TableEntry(Employee emp) {
+            name = emp.getName();
+            address = emp.getAddress();
+            currentPosition = emp.getPositions().stream()
+                    .filter(pos ->
+                            pos.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
+                    .map(PositionHistoryEntry::getPosition)
+                    .map(Position::getName)
+                    .findAny().orElse("Не работает");
+        }
     }
 }

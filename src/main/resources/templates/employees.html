@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
 </head>
 <body>
+<script th:src="@{/js/dropdown.js}"></script>
 <form action="#" th:action="@{/employees}" method="get">
     <div>
         <label>
@@ -19,15 +21,22 @@
                         th:text="${level}">Уровень</option>
             </select>
         </label>
-        <label>
-            <input onmouseover="focus();old = value;" onmousedown = "value = '';" onmouseup="value = old;"
-                   autoComplete="on" list="suggestions" placeholder="-- Образовательная организация --"
-                   type="text" name="educationPlace" style = "width:300px;" />
-            <datalist id="suggestions">
-                <option th:each="place : ${educationPlaces}" th:value="${place}"
-                        th:text="${place}">Организация</option>
-            </datalist>
-        </label>
+        <div class="dropdown">
+            <input type="text" style="display: none;" name="educationPlace" id="edPlaceInput">
+            <button onclick="dropFunction('edPlaceDrop')" class="dropbtn" type="button">Место обучения</button>
+            <div id="edPlaceDrop" class="dropdown-content" onmouseleave="dropFunction('edPlaceDrop')">
+                <input type="text" placeholder="Search.." id="edPlaceFilterInput" class="dropInput"
+                       onkeyup="filterFunction('edPlaceFilterInput', 'edPlaceDrop')">
+                <div>
+                    <button type="button" th:value
+                            onclick="updateInput('edPlaceInput', this)">Нет</button>
+                </div>
+                <div th:each="place : ${educationPlaces}">
+                    <button type="button" th:text="${place}" th:value="${place}"
+                            onclick="updateInput('edPlaceInput', this)"></button>
+                </div>
+            </div>
+        </div>
     </div>
     <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
 </form>

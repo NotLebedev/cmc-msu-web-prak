@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Имя
+            </th>
+            <th>
+                Адрес
+            </th>
+            <th>
+                Должность
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${employees.isEmpty()}">
+            <td colspan="2"> Служащих по заданному фильтру не найдено. </td>
+        </tr>
+        <tr th:each="employee : ${employees}">
+            <td><span th:text="${employee.getName()}"> Имя </span></td>
+            <td><span th:text="${employee.getAddress()}"> Адрес </span></td>
+            <td><span th:text="${employee.getName()}"> Должность </span></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div th:replace="general :: footer"></div>
+</body>
+
+</html>

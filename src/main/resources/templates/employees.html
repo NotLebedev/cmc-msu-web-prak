@@ -14,29 +14,8 @@
             Имя:
             <input type="text" name="name">
         </label>
-        <label>
-            <select name="educationLevel" autocomplete="off">
-                <option style="display: none" th:selected th:disabled th:value>---Уровень образования---</option>
-                <option th:each="level : ${educationLevels}" th:value="${level}"
-                        th:text="${level}">Уровень</option>
-            </select>
-        </label>
-        <div class="dropdown">
-            <input type="text" style="display: none;" name="educationPlace" id="edPlaceInput">
-            <button onclick="dropFunction('edPlaceDrop')" class="dropbtn" type="button">Место обучения</button>
-            <div id="edPlaceDrop" class="dropdown-content" onmouseleave="dropFunction('edPlaceDrop')">
-                <input type="text" placeholder="Search.." id="edPlaceFilterInput" class="dropInput"
-                       onkeyup="filterFunction('edPlaceFilterInput', 'edPlaceDrop')">
-                <div>
-                    <button type="button" th:value
-                            onclick="updateInput('edPlaceInput', this)">Нет</button>
-                </div>
-                <div th:each="place : ${educationPlaces}">
-                    <button type="button" th:text="${place}" th:value="${place}"
-                            onclick="updateInput('edPlaceInput', this)"></button>
-                </div>
-            </div>
-        </div>
+        <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
+        <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
     </div>
     <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
 </form>

@@ -2,6 +2,11 @@
     font-family: Arial, serif;
 }
 
+body {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
 .footer {
     position: fixed;
     left: 0;

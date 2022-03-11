@@ -35,6 +35,9 @@
     min-width: 230px;
     border: 1px solid #ddd;
     z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 80vh;
 }
 
 .dropdown-content button {
@@ -45,12 +48,15 @@
     border: none;
     cursor: pointer;
     background-color: #ffffff;
+    width: 100%;
 }
 
-.dropdown-content button:hover {background-color: #e1e1e1
+.dropdown-content button:hover {
+    background-color: #e1e1e1
 }
 
-.dropdown-content .selActive {background-color: #8f8f8f
+.dropdown-content .selActive {
+    background-color: #8f8f8f
 }
 
 .show {display:block;}

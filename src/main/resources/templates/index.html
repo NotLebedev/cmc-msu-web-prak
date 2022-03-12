@@ -6,8 +6,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<h1>Welcome</h1>
-<h2 th:utext="${message}">..!..</h2>
+<h1>Добро пожаловать.</h1>
+<a class="button1" th:href="@{/employees}">Список сотрудников</a>
+<!--<a class="button1" th:href="@{/departments}">Список подразделений</a>-->
 
 
 <div th:replace="general :: footer"></div>

@@ -49,24 +49,17 @@ public class EmployeesListController {
         return "employees";
     }
 
-    @PostMapping(value = "/employees")
-    public String employees(
-            @ModelAttribute EmployeeSearch search,
-            Model model) {
-
-
-        return "employees";
-    }
-
     @Getter
     private static class TableEntry {
+        private final Long id;
         private final String name;
-        private final String address;
         private final String currentPosition;
+        private final String education;
 
         public TableEntry(Employee emp) {
+            id = emp.getId();
             name = emp.getName();
-            address = emp.getAddress();
+            education = emp.getEducationLevel() + ": " + emp.getEducationPlace();
             currentPosition = emp.getPositions().stream()
                     .filter(pos ->
                             pos.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))

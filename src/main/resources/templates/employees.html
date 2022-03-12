@@ -9,17 +9,24 @@
 <body class="site">
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
-    <form action="#" th:action="@{/employees}" method="get">
+    <div style="display: flex; justify-content: space-between">
         <div>
-            <label>
-                Имя:
-                <input type="text" name="name">
-            </label>
-            <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
-            <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
+            <form action="#" th:action="@{/employees}" method="get">
+                <div>
+                    <label>
+                        <input class="inputText1" type="text" name="name" placeholder="Имя сотрудника">
+                    </label>
+                    <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
+                    <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
+                </div>
+                <input class="button1" type="submit" value="Применить" />
+                <input class="button1" type="reset" value="Сбросить" />
+            </form>
         </div>
-        <label><input class="button1" type="submit" value="Submit" /> <input class="button1" type="reset" value="Reset" /></label>
-    </form>
+        <div style="display: flex;">
+            <a style="align-self: flex-end;" class="button1" th:href="@{/employee?id=}">Добавить служащего</a>
+        </div>
+    </div>
     <table class="autoTable">
         <thead>
             <tr>
@@ -27,10 +34,10 @@
                     Имя
                 </th>
                 <th>
-                    Адрес
+                    Должность
                 </th>
                 <th>
-                    Должность
+                    Образование
                 </th>
             </tr>
         </thead>
@@ -39,9 +46,9 @@
                 <td colspan="3"> Служащих по заданному фильтру не найдено. </td>
             </tr>
             <tr th:each="employee : ${employees}">
-                <td><span th:text="${employee.getName()}"> Имя </span></td>
-                <td><span th:text="${employee.getAddress()}"> Адрес </span></td>
+                <td><a th:text="${employee.getName()}" th:href="${'/employee?id=' + employee.getId()}"> Имя </a></td>
                 <td><span th:text="${employee.getCurrentPosition()}"> Должность </span></td>
+                <td><span th:text="${employee.getEducation()}"> Адрес </span></td>
             </tr>
         </tbody>
     </table>

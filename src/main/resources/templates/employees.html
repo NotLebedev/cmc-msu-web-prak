@@ -24,7 +24,7 @@
             </form>
         </div>
         <div style="display: flex;">
-            <a style="align-self: flex-end;" class="button1" th:href="@{/employee?id=}">Добавить служащего</a>
+            <a style="align-self: flex-end;" class="button1" th:href="@{/employees/employee}">Добавить служащего</a>
         </div>
     </div>
     <table class="autoTable">
@@ -46,7 +46,7 @@
                 <td colspan="3"> Служащих по заданному фильтру не найдено. </td>
             </tr>
             <tr th:each="employee : ${employees}">
-                <td><a th:text="${employee.getName()}" th:href="${'/employee?id=' + employee.getId()}"> Имя </a></td>
+                <td><a th:text="${employee.getName()}" th:href="${'/employees/employee?id=' + employee.getId()}"> Имя </a></td>
                 <td><span th:text="${employee.getCurrentPosition()}"> Должность </span></td>
                 <td><span th:text="${employee.getEducation()}"> Адрес </span></td>
             </tr>

@@ -2,6 +2,7 @@ package ru.notlebedev.webprak.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -11,13 +12,16 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
 public class ThymeleafConfigurator {
+    @Value("${thymeleaf_no_cache}")
+    private Boolean thymeleaf_no_cache;
+
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("classpath:/templates/");
+        templateResolver.setPrefix("file:./src/main/resources/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(!thymeleaf_no_cache);
         return templateResolver;
     }
 

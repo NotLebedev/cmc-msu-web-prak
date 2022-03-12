@@ -19,5 +19,11 @@
       "name": "db_schema",
       "type": "java.lang.String",
       "description": "Database schema to use."
+    },
+    {
+      "name": "thymeleaf_no_cache",
+      "type": "java.lang.Boolean",
+      "description": "Disable Thymeleaf template caching.",
+      "defaultValue": "false"
     }
   ] }

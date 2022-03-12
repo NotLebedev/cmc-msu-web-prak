@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
+</head>
+<body class="site">
+
+
+<main class="site-content">
+    <script th:src="@{/js/dropdown.js}"></script>
+
+    <ul th:fragment="hierarchy(departments)" th:unless="${#lists.isEmpty(departments)}">
+        <li th:each="child : ${departments}" th:inline="text">
+            [[${child.getName()}]]
+            <ul th:replace="this::hierarchy(${child.getChildren()})"></ul>
+        </li>
+    </ul>
+</main>
+
+
+<footer th:insert="general :: footer"></footer>
+</body>
+
+</html>

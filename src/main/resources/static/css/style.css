@@ -83,6 +83,7 @@ body {
     width: 100%;
     padding: 0;
     border: none;
+    border-collapse: collapse;
 }
 
 .autoTable > thead th {
@@ -91,8 +92,7 @@ body {
     padding: 0.35em 1.2em;
     color: #FFFFFF;
     background: #04AA6D;
-    border-left: 1px solid #04c07a;
-    border-right: 1px solid #04c07a;
+    border-right: 1px solid #00915c;
 }
 
 .autoTable tbody td {

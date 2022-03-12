@@ -18,7 +18,7 @@
             <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
             <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
         </div>
-        <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
+        <label><input class="button1" type="submit" value="Submit" /> <input class="button1" type="reset" value="Reset" /></label>
     </form>
     <table class="autoTable">
         <thead>
@@ -36,7 +36,7 @@
         </thead>
         <tbody>
             <tr th:if="${employees.isEmpty()}">
-                <td colspan="2"> Служащих по заданному фильтру не найдено. </td>
+                <td colspan="3"> Служащих по заданному фильтру не найдено. </td>
             </tr>
             <tr th:each="employee : ${employees}">
                 <td><span th:text="${employee.getName()}"> Имя </span></td>

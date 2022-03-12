@@ -5,13 +5,14 @@
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
-<body>
-<h1>Добро пожаловать.</h1>
-<a class="button1" th:href="@{/employees}">Список сотрудников</a>
-<!--<a class="button1" th:href="@{/departments}">Список подразделений</a>-->
+<body class="site">
+<main class="site-content">
+    <h1>Добро пожаловать.</h1>
+    <a class="button1" th:href="@{/employees}">Список сотрудников</a>
+    <!--<a class="button1" th:href="@{/departments}">Список подразделений</a>-->
+</main>
 
-
-<div th:replace="general :: footer"></div>
+<footer th:insert="general :: footer"></footer>
 </body>
 
 </html>

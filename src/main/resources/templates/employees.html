@@ -6,47 +6,49 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
 </head>
-<body>
-<script th:src="@{/js/dropdown.js}"></script>
-<form action="#" th:action="@{/employees}" method="get">
-    <div>
-        <label>
-            Имя:
-            <input type="text" name="name">
-        </label>
-        <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
-        <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
-    </div>
-    <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
-</form>
-<table>
-    <thead>
-        <tr>
-            <th>
-                Имя
-            </th>
-            <th>
-                Адрес
-            </th>
-            <th>
-                Должность
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:if="${employees.isEmpty()}">
-            <td colspan="2"> Служащих по заданному фильтру не найдено. </td>
-        </tr>
-        <tr th:each="employee : ${employees}">
-            <td><span th:text="${employee.getName()}"> Имя </span></td>
-            <td><span th:text="${employee.getAddress()}"> Адрес </span></td>
-            <td><span th:text="${employee.getCurrentPosition()}"> Должность </span></td>
-        </tr>
-    </tbody>
-</table>
+<body class="site">
+<main class="site-content">
+    <script th:src="@{/js/dropdown.js}"></script>
+    <form action="#" th:action="@{/employees}" method="get">
+        <div>
+            <label>
+                Имя:
+                <input type="text" name="name">
+            </label>
+            <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
+            <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
+        </div>
+        <label><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></label>
+    </form>
+    <table class="autoTable">
+        <thead>
+            <tr>
+                <th>
+                    Имя
+                </th>
+                <th>
+                    Адрес
+                </th>
+                <th>
+                    Должность
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${employees.isEmpty()}">
+                <td colspan="2"> Служащих по заданному фильтру не найдено. </td>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td><span th:text="${employee.getName()}"> Имя </span></td>
+                <td><span th:text="${employee.getAddress()}"> Адрес </span></td>
+                <td><span th:text="${employee.getCurrentPosition()}"> Должность </span></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
 
 
-<div th:replace="general :: footer"></div>
+<footer th:insert="general :: footer"></footer>
 </body>
 
 </html>

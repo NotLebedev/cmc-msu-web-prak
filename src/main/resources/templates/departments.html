@@ -15,7 +15,7 @@
 
     <div th:fragment="hierarchy(departments)" th:unless="${#lists.isEmpty(departments)}">
         <div th:each="child : ${departments}">
-            <button type="button" class="collapsible" th:text="${child.getName()}"></button>
+            <button th:childcount="${child.getChildCount()}" type="button" class="collapsible" th:text="${child.getName()}"></button>
             <div class="collapsible-content">
                 <div th:replace="this::hierarchy(${child.getChildren()})"></div>
             </div>

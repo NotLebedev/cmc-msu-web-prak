@@ -32,13 +32,17 @@ public class DepartmentListController {
     @Getter
     private static class TableEntry {
         private final Long id;
-        public final String name;
-        public final List<TableEntry> children;
+        private final String name;
+        private final List<TableEntry> children;
+        private final Long childCount;
 
         public TableEntry(Department dep) {
             id = dep.getId();
             name = dep.getName();
             children = dep.getChildren().stream().map(TableEntry::new).collect(Collectors.toList());
+            childCount =  + children.stream()
+                    .map(TableEntry::getChildCount)
+                    .reduce((long) children.size(), Long::sum);
         }
     }
 }

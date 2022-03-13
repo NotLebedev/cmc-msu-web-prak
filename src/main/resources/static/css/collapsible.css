@@ -14,6 +14,23 @@
     background-color: #FFFFFF;
 }
 
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: white;
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.childless:after {
+    content: none;
+}
+
 /* Style the collapsible content. Note: hidden by default */
 .collapsible-content {
     padding: 0 18px;

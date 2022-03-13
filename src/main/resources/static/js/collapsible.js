@@ -11,6 +11,10 @@ function toggle() {
 }
 
 for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", toggle);
-    coll[i].click();
+    if (coll[i].getAttribute('childcount') !== '0') {
+        coll[i].addEventListener("click", toggle);
+        coll[i].click();
+    } else {
+        coll[i].classList.add("childless");
+    }
 } 

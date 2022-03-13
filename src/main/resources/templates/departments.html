@@ -13,14 +13,48 @@
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
 
-    <div th:fragment="hierarchy(departments)" th:unless="${#lists.isEmpty(departments)}">
-        <div th:each="child : ${departments}">
-            <button style="display: inline-block;" th:childcount="${child.getChildCount()}" type="button" class="collapsible" >
-                <a th:href="@{/}" th:text="${child.getName()}"></a>
-            </button>
-            <div class="collapsible-content">
-                <div th:replace="this::hierarchy(${child.getChildren()})"></div>
+    <div th:switch="${displayMode.toString()}">
+        <div th:case="'HIERARCHY'">
+            <div th:fragment="hierarchy(departments)" th:unless="${#lists.isEmpty(departments)}">
+                <div th:each="child : ${departments}">
+                    <button style="display: inline-block;" th:childcount="${child.getChildCount()}" type="button" class="collapsible" >
+                        <a th:href="@{/}" th:text="${child.getName()}"></a>
+                    </button>
+                    <div class="collapsible-content">
+                        <div th:replace="this::hierarchy(${child.getChildren()})"></div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div th:case="'TABLE'">
+            <table class="autoTable">
+                <thead>
+                <tr>
+                    <th>
+                        Название
+                    </th>
+                    <th>
+                        Головное подразделение
+                    </th>
+                    <th>
+                        Состояние
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${departments.isEmpty()}">
+                    <td colspan="3"> Подразделений по заданному фильтру не найдено. </td>
+                </tr>
+                <tr th:each="department : ${departments}">
+                    <td><a th:text="${department.getName()}"
+                           th:href="${'/employees/employee?id=' + department.getId()}"> Название </a></td>
+                    <td><a th:if="${department.getParent() != null}" th:text="${department.getParent().getName()}"
+                           th:href="${'/employees/employee?id=' + department.getParent().getId()}"> Головное </a>
+                        <a th:if="${department.getParent() == null}"></a></td>
+                    <td><span th:text="${department.getStatus()}"> Адрес </span></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

@@ -53,7 +53,7 @@ body {
     padding-left: 10px;
 }
 
-.button1 {
+.button1, .button1:link, .button1:visited {
     display:inline-block;
     padding:0.35em 1.2em;
     border:0.1em solid #ffffff;
@@ -67,6 +67,7 @@ body {
     text-align:center;
     transition: all 0.2s;
 }
+
 .button1:hover {
     color: #04AA6D;
     background-color: #FFFFFF;
@@ -130,4 +131,13 @@ body {
     outline: none !important;
     border: 2px solid #04AA6D;
     border-radius:0.12em;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: #282828;
+
 }

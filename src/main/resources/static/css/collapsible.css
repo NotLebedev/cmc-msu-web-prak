@@ -2,7 +2,7 @@
     background-color: #ffffff;
     color: #000000;
     cursor: pointer;
-    padding: 18px;
+    padding: 0.75em 1.2em;
     width: 100%;
     border: none;
     text-align: left;
@@ -17,7 +17,8 @@
 .collapsible:after {
     content: '\02795'; /* Unicode character for "plus" sign (+) */
     font-size: 13px;
-    color: white;
+    color: transparent;
+    text-shadow: 0 0 0 #04AA6D;
     float: left;
     margin-left: 5px;
     margin-right: 5px;

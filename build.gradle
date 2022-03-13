@@ -7,7 +7,7 @@ plugins {
 
 group = 'ru.notlebedev'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "14"
 
 configurations {
     compileOnly {
@@ -75,3 +75,4 @@ task stage {
     build.mustRunAfter clean
     jacocoTestReport.mustRunAfter clean
 }
+targetCompatibility = JavaVersion.VERSION_14

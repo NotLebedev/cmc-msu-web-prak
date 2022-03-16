@@ -13,6 +13,27 @@
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
 
+    <div style="display: flex; justify-content: space-between">
+        <div>
+            <form action="#" th:action="@{/departments}" method="get">
+                <div>
+                    <label>
+                        <input class="inputText1" type="text" name="name" placeholder="Название">
+                    </label>
+                    <label>
+                        <input class="inputText1" type="text" name="chiefName" placeholder="Руководитель">
+                    </label>
+                    <div th:replace="general :: dropdown('status', 'Состояние', ${statuses}, 'status')"></div>
+                </div>
+                <input class="button1" type="submit" value="Применить" />
+                <input class="button1" type="reset" value="Сбросить" />
+            </form>
+        </div>
+        <div style="display: flex;">
+            <a style="align-self: flex-end;" class="button1" th:href="@{/employees/employee}">Добавить подразделение</a>
+        </div>
+    </div>
+
     <div th:switch="${displayMode.toString()}">
         <div th:case="'HIERARCHY'">
             <div th:fragment="hierarchy(departments)" th:unless="${#lists.isEmpty(departments)}">
@@ -34,6 +55,9 @@
                         Название
                     </th>
                     <th>
+                        Руководитель
+                    </th>
+                    <th>
                         Головное подразделение
                     </th>
                     <th>
@@ -47,9 +71,14 @@
                 </tr>
                 <tr th:each="department : ${departments}">
                     <td><a th:text="${department.getName()}"
-                           th:href="${'/employees/employee?id=' + department.getId()}"> Название </a></td>
+                           th:href="${'/departments/department?id=' + department.getId()}"> Название </a></td>
+                    <td><a th:if="${department.getHeadId() != null}"
+                           th:href="${'/employees/employee?id=' + department.getHeadId()}"
+                           th:text="${department.getHead()}"> Руководитель </a>
+                        <span th:if="${department.getHeadId() == null}"
+                           th:text="${department.getHead()}"> Руководитель </span></td>
                     <td><a th:if="${department.getParent() != null}" th:text="${department.getParent().getName()}"
-                           th:href="${'/employees/employee?id=' + department.getParent().getId()}"> Головное </a>
+                           th:href="${'/departments/department?id=' + department.getParent().getId()}"> Головное </a>
                         <a th:if="${department.getParent() == null}"></a></td>
                     <td><span th:text="${department.getStatus()}"> Адрес </span></td>
                 </tr>

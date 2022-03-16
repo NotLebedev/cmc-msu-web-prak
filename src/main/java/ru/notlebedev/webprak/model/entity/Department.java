@@ -55,7 +55,18 @@ public class Department implements GenericEntity<Long> {
     }
 
     public enum Status {
-        ACTIVE,
-        DEFUNCT
+        ACTIVE("Функционирует"),
+        DEFUNCT("Закрыто");
+
+        private final String name;
+
+        Status(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }

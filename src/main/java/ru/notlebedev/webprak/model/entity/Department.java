@@ -64,6 +64,13 @@ public class Department implements GenericEntity<Long> {
             this.name = name;
         }
 
+        public static Status forString(String str) {
+            for (Status value : Status.values())
+                if (value.toString().equals(str))
+                    return value;
+            throw new IllegalArgumentException();
+        }
+
         @Override
         public String toString() {
             return name;

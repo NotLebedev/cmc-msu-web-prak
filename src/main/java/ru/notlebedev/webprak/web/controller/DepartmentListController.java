@@ -45,7 +45,7 @@ public class DepartmentListController {
         } else {
             Department.Status stat = null;
             try {
-                stat = Department.Status.valueOf(status);
+                stat = Department.Status.forString(status);
             } catch (NullPointerException | IllegalArgumentException ignored) {}
 
             DepartmentDAO.Filter filter = DepartmentDAO.getFilterBuilder()

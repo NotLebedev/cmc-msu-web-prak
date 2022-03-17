@@ -9,7 +9,26 @@
 <body class="site">
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
-
+    <h1 th:if="${employee.getActionMode().toString().equals('UPDATE')}">Информация о служащем</h1>
+    <h1 th:if="${employee.getActionMode().toString().equals('CREATE')}">Добавить служащего</h1>
+    <form action="#" th:action="@{/employees/employee}" method="post">
+        <div>
+            <label>
+                Имя сотрудника
+                <input style="" class="inputText1 resizing-input" type="text" name="name"
+                       th:value="${employee.getName()}" placeholder="        ">
+            </label>
+        </div>
+        <div>
+            <label>
+                Адрес проживания
+                <input style="" class="inputText1 resizing-input" type="text" name="address"
+                       th:value="${employee.getAddress()}" placeholder="        ">
+            </label>
+        </div>
+        <input class="button1" type="submit" value="Сохранить"/>
+    </form>
+    <script th:src="@{/js/inputs.js}"></script>
 </main>
 
 

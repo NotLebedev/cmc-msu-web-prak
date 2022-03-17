@@ -149,3 +149,8 @@ a:visited {
     overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
+
+.tmp-element {
+    visibility: hidden;
+    white-space: pre;
+}

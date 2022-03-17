@@ -6,26 +6,36 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/collapsible.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/switch.css}"/>
 </head>
 <body class="site">
-
-
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
+    <script th:src="@{/js/buttons.js}"></script>
 
     <div style="display: flex; justify-content: space-between">
         <div>
             <form action="#" th:action="@{/departments}" method="get">
                 <div>
-                    <label>
-                        <input class="inputText1" type="text" name="name" placeholder="Название">
-                    </label>
-                    <label>
-                        <input class="inputText1" type="text" name="chiefName" placeholder="Руководитель">
-                    </label>
-                    <div th:replace="general :: dropdown('status', 'Состояние', ${statuses}, 'status')"></div>
+                    <div>
+                        <label>
+                            <input class="inputText1" type="text" name="name" placeholder="Название">
+                        </label>
+                        <label>
+                            <input class="inputText1" type="text" name="chiefName" placeholder="Руководитель">
+                        </label>
+                        <span th:replace="general :: dropdown('status', 'Состояние', ${statuses}, 'status')"></span>
+
+                        <label>
+                            <input type="text" style="display: none;" name="hierarchy" value="false"
+                                   id="hierarchyValue">
+                            <input class="button1" value="Отображать таблицу" type="button"
+                                   onclick="flipValue(this, 'hierarchyValue',
+                                   'Отображать таблицу', 'Отображать иерархию');">
+                        </label>
+                    </div>
                 </div>
-                <input class="button1" type="submit" value="Применить" />
+                <input class="button1" type="submit" value="Применить"/>
                 <input class="button1" type="reset" value="Сбросить" />
             </form>
         </div>

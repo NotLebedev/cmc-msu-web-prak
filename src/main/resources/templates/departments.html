@@ -19,10 +19,10 @@
                 <div>
                     <div>
                         <label>
-                            <input class="inputText1" type="text" name="name" placeholder="Название">
+                            <input style="max-width: 30vw;" class="inputText1" type="text" name="name" placeholder="Название">
                         </label>
                         <label>
-                            <input class="inputText1" type="text" name="chiefName" placeholder="Руководитель">
+                            <input style="max-width: 30vw;" class="inputText1" type="text" name="chiefName" placeholder="Руководитель">
                         </label>
                         <span th:replace="general :: dropdown('status', 'Состояние', ${statuses}, 'status')"></span>
 
@@ -98,6 +98,7 @@
     </div>
 
     <script th:src="@{/js/collapsible.js}"></script>
+    <script th:src="@{/js/inputs.js}"></script>
 </main>
 
 

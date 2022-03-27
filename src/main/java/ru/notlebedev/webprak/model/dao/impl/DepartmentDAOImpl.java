@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.notlebedev.webprak.model.dao.DepartmentDAO;
 import ru.notlebedev.webprak.model.entity.Department;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,6 +35,18 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
                 criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
             return applyInitialize(session.createQuery(criteriaQuery).getResultList());
+        }
+    }
+
+    public Collection<Department> get() {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
+            Root<Department> root = criteriaQuery.from(Department.class);
+
+            root.join("attr_name", JoinType.RIGHT);
+
+            return session.createQuery(criteriaQuery).getResultList();
         }
     }
 

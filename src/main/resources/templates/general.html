@@ -39,4 +39,27 @@
             </div>
         </div>
     </div>
+
+    <div th:fragment="textDropdown(name, nameString, valDefault, val, requestParam)">
+        <label th:inline="text" >
+            [[${nameString}]]
+            <input type="text" th:name="${requestParam}" class="inputText1" th:id="${name + 'Input'}"
+                   th:arg0="${name + 'Drop'}"
+                   th:arg1="${name + 'Input'}"
+                   onclick="dropFunction(this.getAttribute('arg0'));"
+                   onkeyup="filterFunction(this.getAttribute('arg1'), this.getAttribute('arg0'));"
+                   th:value="${valDefault}">
+
+            <div th:id="${name + 'Drop'}" class="dropdown-content"
+                 th:arg0="${name + 'Drop'}"
+                 onmouseleave="dropFunction(this.getAttribute('arg0'))"
+                 style="margin-left: 155px;">
+                <div th:each="place : ${val}">
+                    <button type="button" th:text="${place}" th:value="${place}"
+                            th:arg0="${name + 'Input'}"
+                            onclick="updateInput(this.getAttribute('arg0'), this)"></button>
+                </div>
+            </div>
+        </label>
+    </div>
 </body>

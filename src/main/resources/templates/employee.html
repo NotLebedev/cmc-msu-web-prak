@@ -15,17 +15,21 @@
         <div>
             <label>
                 Имя сотрудника
-                <input style="" class="inputText1 resizing-input" type="text" name="name"
+                <input style="max-width: 70vw;" class="inputText1 resizing-input" type="text" name="name"
                        th:value="${employee.getName()}" placeholder="        ">
             </label>
         </div>
         <div>
             <label>
                 Адрес проживания
-                <input style="" class="inputText1 resizing-input" type="text" name="address"
+                <input style="max-width: 70vw;" class="inputText1 resizing-input" type="text" name="address"
                        th:value="${employee.getAddress()}" placeholder="        ">
             </label>
         </div>
+        <div th:replace="general :: textDropdown('eduLevel', 'Уровень образования',
+                ${employee.getEducationLevel()}, ${educationLevels}, 'educationLevel')"></div>
+        <div th:replace="general :: textDropdown('eduPlace', 'Место обучения',
+                ${employee.getEducationPlace()}, ${educationPlaces}, 'educationPlace')"></div>
         <input class="button1" type="submit" value="Сохранить"/>
     </form>
     <script th:src="@{/js/inputs.js}"></script>

@@ -15,9 +15,9 @@ function cleanText(text) {
 }
 
 function adjustWidthOfInput() {
-    let textWidth = cleanText(this.value);
-    let placeholderWidth = cleanText(this.placeholder);
-    this.style.width = getWidthOfInput(this, textWidth > placeholderWidth ? textWidth : placeholderWidth) + "px";
+    let textWidth = getWidthOfInput(this, cleanText(this.value));
+    let placeholderWidth = getWidthOfInput(this, cleanText(this.placeholder));
+    this.style.width = (textWidth > placeholderWidth ? textWidth : placeholderWidth) + "px";
 }
 
 for (let i = 0; i < inputs.length; i++) {

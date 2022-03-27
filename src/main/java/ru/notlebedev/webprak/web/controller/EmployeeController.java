@@ -42,6 +42,9 @@ public class EmployeeController {
 
         model.addAttribute("employee", new EmployeeEntry(emp.get()));
 
+        model.addAttribute("educationLevels", employeeDAO.getKnownEducationLevels());
+        model.addAttribute("educationPlaces", employeeDAO.getKnownEducationPlaces());
+
         return "employee";
     }
 

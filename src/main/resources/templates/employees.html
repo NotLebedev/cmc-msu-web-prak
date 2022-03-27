@@ -14,7 +14,7 @@
             <form action="#" th:action="@{/employees}" method="get">
                 <div>
                     <label>
-                        <input class="inputText1" type="text" name="name" placeholder="Имя сотрудника">
+                        <input style="max-width: 50vw;" class="inputText1" type="text" name="name" placeholder="Имя сотрудника">
                     </label>
                     <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
                     <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>

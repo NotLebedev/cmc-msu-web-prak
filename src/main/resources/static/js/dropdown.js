@@ -21,8 +21,9 @@ function filterFunction(inp, id) {
 function updateInput(inp, val) {
     inp = document.getElementById(inp);
     inp.value = val.value;
-    val.classList.add("selActive")
+    val.classList.add("selActive");
     if (updateInput.old !== undefined)
-    updateInput.old.classList.remove("selActive")
-    updateInput.old = val
+        updateInput.old.classList.remove("selActive");
+    updateInput.old = val;
+    inp.dispatchEvent(new Event('input'));
 }

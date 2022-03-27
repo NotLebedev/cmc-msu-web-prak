@@ -38,18 +38,6 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
         }
     }
 
-    public Collection<Department> get() {
-        try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Department> criteriaQuery = builder.createQuery(Department.class);
-            Root<Department> root = criteriaQuery.from(Department.class);
-
-            root.join("attr_name", JoinType.RIGHT);
-
-            return session.createQuery(criteriaQuery).getResultList();
-        }
-    }
-
     @Override
     public Collection<Department> getHierarchy() {
         Collection<Department> departments = getByFilter(DepartmentDAO.getFilterBuilder()

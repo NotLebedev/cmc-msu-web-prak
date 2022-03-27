@@ -48,7 +48,8 @@
                    th:arg1="${name + 'Input'}"
                    onclick="dropFunction(this.getAttribute('arg0'));"
                    onkeyup="filterFunction(this.getAttribute('arg1'), this.getAttribute('arg0'));"
-                   th:value="${valDefault}">
+                   th:value="${valDefault}"
+                   placeholder="        ">
 
             <div th:id="${name + 'Drop'}" class="dropdown-content"
                  th:arg0="${name + 'Drop'}"

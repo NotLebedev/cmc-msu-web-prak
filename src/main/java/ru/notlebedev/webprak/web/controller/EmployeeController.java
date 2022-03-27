@@ -51,6 +51,7 @@ public class EmployeeController {
     @Getter
     private static class EmployeeEntry {
         private final Mode actionMode;
+        private final Long id;
         private final String name;
         private final String address;
         private final String educationLevel;
@@ -60,6 +61,7 @@ public class EmployeeController {
 
         private EmployeeEntry() {
             actionMode = Mode.CREATE;
+            id = null;
             name = null;
             address = null;
             educationLevel = null;
@@ -69,6 +71,7 @@ public class EmployeeController {
         }
 
         private EmployeeEntry(Employee employee) {
+            id = employee.getId();
             actionMode = Mode.UPDATE;
             name = employee.getName();
             address = employee.getAddress();

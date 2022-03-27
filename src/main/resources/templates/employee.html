@@ -30,6 +30,35 @@
                 ${employee.getEducationLevel()}, ${educationLevels}, 'educationLevel')"></div>
         <div th:replace="general :: textDropdown('eduPlace', 'Место обучения',
                 ${employee.getEducationPlace()}, ${educationPlaces}, 'educationPlace')"></div>
+
+
+        <div th:if="${employee.getActionMode().toString().equals('UPDATE')}">
+            <div style="margin-top: 0.5em; margin-bottom: 0.5em;"
+                 th:text="${'Стаж ' + employee.getEmploymentDuration() / 360 + ' Лет ' +
+                 employee.getEmploymentDuration() % 360 / 30 + ' Месяцев ' +
+                 employee.getEmploymentDuration() % 30 + ' Дней '}">
+            </div>
+
+            <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+                <table class="autoTable" style="width: fit-content;">
+                    <thead>
+                        <tr>
+                            <th><a style="color: white" th:href="${'/positions/history?id=' + employee.getId()}">
+                                    История занимаемых должностей</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${employee.getEmploymentHistory().isEmpty()}">
+                            <td style="border-left: none; border-right: none;">Пусто</td>
+                        </tr>
+                        <tr th:each="position : ${employee.getEmploymentHistory()}">
+                            <td style="border-left: none; border-right: none;" th:text="${position}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <input class="button1" type="submit" value="Сохранить"/>
     </form>
     <script th:src="@{/js/inputs.js}"></script>

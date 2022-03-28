@@ -64,13 +64,14 @@
 
         <input class="button1" type="submit" value="Сохранить"
                onclick="return confirm('Сохранить изменения?')"/>
+    </form>
     <form action="#" th:action="@{/employees/employee}" method="post"
           th:if="${employee.getActionMode().toString().equals('UPDATE')}">
         <input style="display: none;" name="mode" type="text" value="DELETE">
         <input style="display: none;" name="id" type="text" th:value="${employee.getId()}">
         <input class="button1 danger" type="submit" value="Удалить служащего"
                onclick="return confirm('Удалить служащего и историю занимаемых должностей?')"/>
-    <form>
+    </form>
     <script th:src="@{/js/inputs.js}"></script>
 </main>
 

@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
 </head>
-<body>
+<body class="site">
+<main class="site-content">
+    <h1>Произошла ошибка.</h1>
+    <p>Запрашиваемый ресурс недоступен или невозможно выполнить необходимый запрос.</p>
+    <div>
+        <a class="button1" th:href="@{/}">Главная страница</a>
+    </div>
+</main>
 
+<footer th:insert="general :: footer"></footer>
 </body>
+
 </html>

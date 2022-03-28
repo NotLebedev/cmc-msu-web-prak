@@ -22,7 +22,7 @@ public class StaticResourceConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/notFound").setViewName("redirect:/");
+        registry.addViewController("/notFound").setViewName("redirect:/error");
         registry.addViewController("/health").setViewName("health");
     }
 

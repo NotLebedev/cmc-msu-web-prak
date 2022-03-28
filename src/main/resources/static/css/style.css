@@ -74,6 +74,17 @@ body {
     background-color: #FFFFFF;
     border-color: #04AA6D;
 }
+
+.button1.danger {
+    background-color: #b00000;
+}
+
+.button1.danger:hover {
+    color: #b00000;
+    background-color: #FFFFFF;
+    border-color: #b00000;
+}
+
 @media all and (max-width:30em) {
     .button1 {
         display:block;

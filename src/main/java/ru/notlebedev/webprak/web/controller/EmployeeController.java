@@ -76,6 +76,13 @@ public class EmployeeController {
 
             employeeDAO.save(employee);
             newId = employee.getId();
+        } else if (mode.equals("DELETE")) {
+            Optional<Employee> employee = employeeDAO.findById(id);
+            if (employee.isEmpty())
+                return "error";
+
+            employeeDAO.delete(employee.get());
+            return "redirect:/employees";
         }
 
         return setupModelForEmployee(employeeDAO.findById(newId), model);

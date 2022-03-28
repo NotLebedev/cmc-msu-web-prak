@@ -1,6 +1,8 @@
 package ru.notlebedev.webprak.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -37,6 +39,7 @@ public class Employee implements GenericEntity<Long> {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee")
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<PositionHistoryEntry> positions;
 
     @Override

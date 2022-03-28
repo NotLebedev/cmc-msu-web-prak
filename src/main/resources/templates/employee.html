@@ -12,6 +12,9 @@
     <h1 th:if="${employee.getActionMode().toString().equals('UPDATE')}">Информация о служащем</h1>
     <h1 th:if="${employee.getActionMode().toString().equals('CREATE')}">Добавить служащего</h1>
     <form action="#" th:action="@{/employees/employee}" method="post">
+        <input style="display: none;" name="mode" type="text" th:value="${employee.getActionMode().toString()}">
+        <input th:if="${employee.getActionMode().toString().equals('UPDATE')}" style="display: none;" name="id"
+               type="text" th:value="${employee.getId()}">
         <div>
             <label>
                 Имя сотрудника

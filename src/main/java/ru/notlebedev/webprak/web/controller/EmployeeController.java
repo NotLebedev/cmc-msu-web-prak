@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.notlebedev.webprak.model.dao.EmployeeDAO;
 import ru.notlebedev.webprak.model.dao.PositionHistoryDAO;
@@ -12,6 +13,7 @@ import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -32,10 +34,54 @@ public class EmployeeController {
             Model model) {
         if (id == null) {
             model.addAttribute("employee", new EmployeeEntry());
+
+            model.addAttribute("educationLevels", employeeDAO.getKnownEducationLevels());
+            model.addAttribute("educationPlaces", employeeDAO.getKnownEducationPlaces());
             return "employee";
         }
 
-        Optional<Employee> emp = employeeDAO.findById(id);
+        return setupModelForEmployee(employeeDAO.findById(id), model);
+    }
+
+    @PostMapping(value = "employees/employee")
+    public String employee(
+            @RequestParam(value = "mode") String mode,
+            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "educationLevel") String educationLevel,
+            @RequestParam(value = "educationPlace") String educationPlace,
+            Model model) {
+
+        Long newId = 0L;
+
+        if (mode.equals("UPDATE")) {
+            Optional<Employee> emp = employeeDAO.findById(id);
+            if (emp.isEmpty())
+                return "error";
+
+            Employee employee = emp.get();
+            employee.setName(name);
+            if (address != null)
+                employee.setAddress(address);
+            employee.setEducationLevel(educationLevel);
+            employee.setEducationPlace(educationPlace);
+
+            employeeDAO.updateSave(employee);
+
+            newId = employee.getId();
+        } else if (mode.equals("CREATE")) {
+            Employee employee = new Employee(name, Objects.requireNonNullElse(address, ""),
+                    educationLevel, educationPlace);
+
+            employeeDAO.save(employee);
+            newId = employee.getId();
+        }
+
+        return setupModelForEmployee(employeeDAO.findById(newId), model);
+    }
+
+    private String setupModelForEmployee(Optional<Employee> emp, Model model) {
         if (emp.isEmpty())
             return "index";
         emp.get().getPositions().forEach(positionHistoryDAO::initialize);

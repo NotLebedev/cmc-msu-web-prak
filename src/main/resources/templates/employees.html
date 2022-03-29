@@ -9,6 +9,7 @@
 <body class="site">
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
+    <h1>Список служащих</h1>
     <div style="display: flex; justify-content: space-between">
         <div>
             <form action="#" th:action="@{/employees}" method="get">
@@ -20,7 +21,7 @@
                     <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
                 </div>
                 <input class="button1" type="submit" value="Применить" />
-                <input class="button1" type="reset" value="Сбросить" />
+                <input class="button1 danger" type="reset" value="Сбросить" />
             </form>
         </div>
         <div style="display: flex;">

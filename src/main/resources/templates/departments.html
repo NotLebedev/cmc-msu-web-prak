@@ -13,6 +13,7 @@
     <script th:src="@{/js/dropdown.js}"></script>
     <script th:src="@{/js/buttons.js}"></script>
 
+    <h1>Список подразделений</h1>
     <div style="display: flex; justify-content: space-between">
         <div>
             <form action="#" th:action="@{/departments}" method="get">
@@ -36,7 +37,7 @@
                     </div>
                 </div>
                 <input class="button1" type="submit" value="Применить"/>
-                <input class="button1" type="reset" value="Сбросить" />
+                <input class="button1 danger" type="reset" value="Сбросить" />
             </form>
         </div>
         <div style="display: flex;">

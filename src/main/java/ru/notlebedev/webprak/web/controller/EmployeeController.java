@@ -145,6 +145,6 @@ public class EmployeeController {
                     .collect(Collectors.toList());
         }
 
-        public enum Mode {UPDATE, CREATE};
+        public enum Mode {UPDATE, CREATE}
     }
 }

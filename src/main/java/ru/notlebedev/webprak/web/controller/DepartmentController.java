@@ -66,7 +66,7 @@ public class DepartmentController {
             @RequestParam(value = "mode") String mode,
             @RequestParam(value = "id") Long id,
             Model model) {
-
+        System.out.println("eqweqweq");
         return "department";
     }
 

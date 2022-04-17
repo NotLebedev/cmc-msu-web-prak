@@ -82,43 +82,37 @@
                         Должность свободна
                     </td>
                     <td>
-                        <form>
-                            <label>
-                                <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);" class="inputText1 resizing-input" type="text"
-                                       name="description"
-                                       th:value="${position.getDescription()}" placeholder="        ">
-                            </label>
-                        </form>
+                        <label>
+                            <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);" class="inputText1 resizing-input" type="text"
+                                   name="description" th:form="${'row' + position.getId()}"
+                                   th:value="${position.getDescription()}" placeholder="        ">
+                        </label>
                     </td>
                     <td>
-                        <form th:form="${'row' + position.getId()}">
-                            <label th:if="${position.getStatus().equals('true')}">
-                                <input type="text" style="display: none;" name="status"
-                                       th:value="${position.getStatus()}"
-                                       id="hierarchyValue">
-                                <input class="button1"
-                                       value="Должность открыта" type="button"
-                                       onclick="flipValue(this, 'hierarchyValue',
-                                   'Должность открыта', 'Должность закрыта');">
-                            </label>
-                            <label th:if="${position.getStatus().equals('false')}">
-                                <input type="text" style="display: none;" name="status"
-                                       th:value="${position.getStatus()}"
-                                       id="hierarchyValue">
-                                <input class="button1"
-                                       value="Должность закрыта" type="button"
-                                       onclick="flipValue(this, 'hierarchyValue',
-                                   'Должность открыта', 'Должность закрыта');">
-                            </label>
-                        </form>
+                        <label th:if="${position.getStatus().equals('true')}">
+                            <input type="text" style="display: none;" name="status"
+                                   th:value="${position.getStatus()}" th:form="${'row' + position.getId()}"
+                                   id="hierarchyValue">
+                            <input class="button1" th:form="${'row' + position.getId()}"
+                                   value="Должность открыта" type="button"
+                                   onclick="flipValue(this, 'hierarchyValue',
+                               'Должность открыта', 'Должность закрыта');">
+                        </label>
+                        <label th:if="${position.getStatus().equals('false')}">
+                            <input type="text" style="display: none;" name="status"
+                                   th:value="${position.getStatus()}" th:form="${'row' + position.getId()}"
+                                   id="hierarchyValue">
+                            <input class="button1" th:form="${'row' + position.getId()}"
+                                   value="Должность закрыта" type="button"
+                                   onclick="flipValue(this, 'hierarchyValue',
+                               'Должность открыта', 'Должность закрыта');">
+                        </label>
                     </td>
                     <td>
-                        <form th:form="${'row' + position.getId()}">
-                            <input style="display: none;" name="mode" type="text" value="UPDATE">
-                            <input style="display: none;" name="id" type="text" th:value="${position.getId()}">
-                            <input class="button1 danger" type="submit" value="Сохранить"
-                                   onclick="return confirm('Сохранить изменения должности?')"/>
-                        </form>
+                        <input style="display: none;" name="mode" type="text" value="UPDATE" th:form="${'row' + position.getId()}">
+                        <input style="display: none;" name="id" type="text" th:value="${position.getId()}" th:form="${'row' + position.getId()}">
+                        <input class="button1 danger" type="submit" value="Сохранить" th:form="${'row' + position.getId()}"
+                               onclick="return confirm('Сохранить изменения должности?')"/>
                     </td>
                 </tr>
                 </tbody>

@@ -12,7 +12,7 @@
     <h1 th:if="${mode.equals(mode.UPDATE)}">Информация о подразделении</h1>
     <h1 th:if="${mode.equals(mode.CREATE)}">Добавить подразделение</h1>
 
-    <form action="#" th:action="${'/departments/department?id=' + department.getId()}" method="post">
+    <form action="#" th:action="${'/departments/department'}" method="post">
         <input style="display: none;" name="mode" type="text" th:value="${mode.toString()}">
         <input th:if="${mode.equals(mode.UPDATE)}" style="display: none;" name="id" type="text"
                th:value="${department.getId()}">

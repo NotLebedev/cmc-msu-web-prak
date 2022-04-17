@@ -34,10 +34,17 @@
 
     <form action="#" th:action="@{/departments/department}" method="post"
           th:if="${mode.equals(mode.UPDATE)}">
-        <input style="display: none;" name="mode" type="text" value="DELETE">
+        <input th:if="${department.getStatus().equals(department.getStatus().ACTIVE)}"
+               style="display: none;" name="mode" type="text" value="DELETE">
+        <input th:if="${department.getStatus().equals(department.getStatus().DEFUNCT)}"
+               style="display: none;" name="mode" type="text" value="RESTORE">
         <input style="display: none;" name="id" type="text" th:value="${department.getId()}">
-        <input class="button1 danger" type="submit" value="Закрыть подразделение"
+        <input th:if="${department.getStatus().equals(department.getStatus().ACTIVE)}"
+               class="button1 danger" type="submit" value="Закрыть подразделение"
                onclick="return confirm('Закрыть подразделение и все должности?')"/>
+        <input th:if="${department.getStatus().equals(department.getStatus().DEFUNCT)}"
+               class="button1 danger" type="submit" value="Возобновить работу подразделения"
+               onclick="return confirm('Возобновить работу подразделения?')"/>
     </form>
 </main>
 

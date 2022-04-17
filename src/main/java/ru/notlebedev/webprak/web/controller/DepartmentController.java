@@ -13,8 +13,8 @@ import ru.notlebedev.webprak.model.entity.Department;
 import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
-import java.util.Collection;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -116,20 +116,48 @@ public class DepartmentController {
             // Close all positions
             department.getPositions().stream()
                     .peek(position -> position.setStatus(Position.Status.CLOSED))
-                    .peek(positionDAO::save)
+                    .peek(positionDAO::updateSave)
                     .flatMap(position -> position.getPositionHistory().stream())
                     .filter(e -> e.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
                     .peek(e -> e.setStatus(PositionHistoryEntry.Status.FINISHED))
                     .peek(e -> e.setDateEnd(new Date(System.currentTimeMillis())))
-                    .forEach(positionHistoryDAO::save);
+                    .forEach(positionHistoryDAO::updateSave);
 
             department.setStatus(Department.Status.DEFUNCT);
             departmentDAO.updateSave(department);
 
-            return "redirect:/departments";
+            newId = department.getId();
+        } else if (mode.equals("RESTORE")) {
+            Optional<Department> dep = departmentDAO.findById(id);
+            if (dep.isEmpty())
+                return "error";
+
+            Department department = dep.get();
+            department.setStatus(Department.Status.ACTIVE);
+
+            departmentDAO.updateSave(department);
+            department.getPositions().stream()
+                    .filter(Position::isChief)
+                    .peek(position -> position.setStatus(Position.Status.ACTIVE))
+                    .forEach(positionDAO::updateSave);
+            newId = department.getId();
         }
 
-        return "redirect:/departments";
+        return setupModel(departmentDAO.findById(newId), model);
+    }
+
+    private String setupModel(Optional<Department> dep, Model model) {
+        if (dep.isEmpty())
+            return "redirect:/departments";
+
+        Collection<String> departmentList = departmentDAO.findAll().stream()
+                .map(Department::getName)
+                .collect(Collectors.toList());
+        model.addAttribute("departmentsList", departmentList);
+
+        model.addAttribute("department", new DepartmentEntry(dep.get()));
+        model.addAttribute("mode", Mode.UPDATE);
+        return "department";
     }
 
     public enum Mode {UPDATE, CREATE}

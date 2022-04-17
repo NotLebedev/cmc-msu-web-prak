@@ -9,6 +9,7 @@
 <body class="site">
 <main class="site-content">
     <script th:src="@{/js/dropdown.js}"></script>
+    <script th:src="@{/js/buttons.js}"></script>
     <h1 th:if="${mode.equals(mode.UPDATE)}">Информация о подразделении</h1>
     <h1 th:if="${mode.equals(mode.CREATE)}">Добавить подразделение</h1>
 
@@ -55,6 +56,7 @@
                     <th>Должность</th>
                     <th>Сотрудник</th>
                     <th>Описание</th>
+                    <th>Состояние</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
@@ -73,11 +75,33 @@
                     </td>
                     <td th:text="${position.getDescription()}"></td>
                     <td>
-                        <form action="#" th:action="@{/positions/position}" method="post">
-                        <input style="display: none;" name="mode" type="text" value="DELETE">
-                        <input style="display: none;" name="шв" type="text" th:value="${position.getId()}">
-                        <input class="button1 danger" type="submit" value="Закрыть"
-                               onclick="return confirm('Закрыть должность?')"/>
+                        <form th:form="${'row' + position.getId()}">
+                            <label th:if="${position.getStatus().equals('true')}">
+                                <input type="text" style="display: none;" name="status"
+                                       th:value="${position.getStatus()}"
+                                       id="hierarchyValue">
+                                <input class="button1"
+                                       value="Должность открыта" type="button"
+                                       onclick="flipValue(this, 'hierarchyValue',
+                                   'Должность открыта', 'Должность закрыта');">
+                            </label>
+                            <label th:if="${position.getStatus().equals('false')}">
+                                <input type="text" style="display: none;" name="status"
+                                       th:value="${position.getStatus()}"
+                                       id="hierarchyValue">
+                                <input class="button1"
+                                       value="Должность закрыта" type="button"
+                                       onclick="flipValue(this, 'hierarchyValue',
+                                   'Должность открыта', 'Должность закрыта');">
+                            </label>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:form="${'row' + position.getId()}" action="#" th:action="@{/positions/position}" method="post">
+                            <input style="display: none;" name="mode" type="text" value="UPDATE">
+                            <input style="display: none;" name="id" type="text" th:value="${position.getId()}">
+                            <input class="button1 danger" type="submit" value="Сохранить"
+                                   onclick="return confirm('Сохранить изменения должности?')"/>
                         </form>
                     </td>
                 </tr>

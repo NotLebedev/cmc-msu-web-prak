@@ -61,6 +61,15 @@ public class DepartmentController {
         return "department";
     }
 
+    @PostMapping(value = "/positions/position")
+    public String position(
+            @RequestParam(value = "mode") String mode,
+            @RequestParam(value = "id") Long id,
+            Model model) {
+
+        return "department";
+    }
+
     @PostMapping(value = "/departments/department")
     public String department(
             @RequestParam(value = "mode") String mode,
@@ -223,7 +232,7 @@ public class DepartmentController {
             private final String name;
             private final String employee;
             private final Long employeeId;
-
+            private final String status;
             private final String description;
 
             PositionEntry(Position pos, Employee emp) {
@@ -237,6 +246,7 @@ public class DepartmentController {
                     this.employeeId = -1L;
                 }
                 this.description = pos.getDescription();
+                this.status = pos.getStatus().equals(Position.Status.ACTIVE) ? "true" : "false";
             }
         }
     }

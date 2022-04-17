@@ -15,10 +15,7 @@ import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -65,9 +62,35 @@ public class DepartmentController {
     public String position(
             @RequestParam(value = "mode") String mode,
             @RequestParam(value = "id") Long id,
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "status") String status,
             Model model) {
-        System.out.println("eqweqweq");
-        return "department";
+        description = Objects.requireNonNullElse(description,"");
+
+        Long departmentId = -1L;
+        if (mode.equals("UPDATE")) {
+            Optional<Position> pos = positionDAO.findById(id);
+            if (pos.isEmpty())
+                return "error";
+
+            Position position = pos.get();
+            departmentId = position.getDepartment().getId();
+            position.setName(name);
+            position.setDescription(description);
+            position.setStatus(status.equals("true") ? Position.Status.ACTIVE : Position.Status.CLOSED);
+
+            if (position.getStatus().equals(Position.Status.CLOSED))
+                position.getPositionHistory().stream()
+                        .filter(e -> e.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
+                        .peek(e -> e.setDateEnd(new Date(System.currentTimeMillis())))
+                        .peek(e -> e.setStatus(PositionHistoryEntry.Status.FINISHED))
+                        .forEach(positionHistoryDAO::updateSave);
+
+            positionDAO.updateSave(position);
+        }
+
+        return "redirect:/departments/department?id=" + departmentId;
     }
 
     @PostMapping(value = "/departments/department")

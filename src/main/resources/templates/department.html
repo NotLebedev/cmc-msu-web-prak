@@ -92,19 +92,21 @@
                         <label th:if="${position.getStatus().equals('true')}">
                             <input type="text" style="display: none;" name="status"
                                    th:value="${position.getStatus()}" th:form="${'row' + position.getId()}"
-                                   id="hierarchyValue">
+                                   th:id="${'q' + position.getId()}">
                             <input class="button1" th:form="${'row' + position.getId()}"
                                    value="Должность открыта" type="button"
-                                   onclick="flipValue(this, 'hierarchyValue',
+                                   th:arg0="${'q' + position.getId()}"
+                                   onclick="flipValue(this, this.getAttribute('arg0'),
                                'Должность открыта', 'Должность закрыта');">
                         </label>
                         <label th:if="${position.getStatus().equals('false')}">
                             <input type="text" style="display: none;" name="status"
                                    th:value="${position.getStatus()}" th:form="${'row' + position.getId()}"
-                                   id="hierarchyValue">
+                                   th:id="${'q' + position.getId()}">
                             <input class="button1" th:form="${'row' + position.getId()}"
                                    value="Должность закрыта" type="button"
-                                   onclick="flipValue(this, 'hierarchyValue',
+                                   th:arg0="${'q' + position.getId()}"
+                                   onclick="flipValue(this, this.getAttribute('arg0'),
                                'Должность открыта', 'Должность закрыта');">
                         </label>
                     </td>

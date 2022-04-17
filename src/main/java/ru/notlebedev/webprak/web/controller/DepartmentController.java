@@ -99,6 +99,12 @@ public class DepartmentController {
             }
 
             departmentDAO.save(department);
+
+            Position chiefPosition = new Position(department, "Начальник", "Начальник подразделения",
+                    Position.Status.ACTIVE);
+            chiefPosition.setChief(true);
+            positionDAO.save(chiefPosition);
+
             newId = department.getId();
         } else if (mode.equals("DELETE")) {
             Optional<Department> dep = departmentDAO.findById(id);

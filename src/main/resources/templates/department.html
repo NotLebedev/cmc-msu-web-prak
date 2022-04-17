@@ -65,7 +65,15 @@
                     <td style="border-left: none; border-right: none;">Пусто</td>
                 </tr>
                 <tr th:each="position : ${department.getPositions()}">
-                    <td th:text="${position.getName()}"></td>
+                    <td>
+                        <form th:id="${'row' + position.getId()}"  action="#"
+                              th:action="@{/positions/position}" method="post">
+                        <label>
+                            <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);" class="inputText1 resizing-input" type="text" name="name"
+                                   th:value="${position.getName()}" placeholder="        ">
+                        </label>
+                        </form>
+                    </td>
                     <td th:if="${position.getEmployeeId() != -1}" style="border-left: none; border-right: none;">
                         <a th:href="${'/employees/employee?id=' + position.getEmployeeId()}"
                            th:text="${position.getEmployee()}"></a>
@@ -73,7 +81,15 @@
                     <td th:if="${position.getEmployeeId() == -1}" style="border-left: none; border-right: none;">
                         Должность свободна
                     </td>
-                    <td th:text="${position.getDescription()}"></td>
+                    <td>
+                        <form>
+                            <label>
+                                <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);" class="inputText1 resizing-input" type="text"
+                                       name="description"
+                                       th:value="${position.getDescription()}" placeholder="        ">
+                            </label>
+                        </form>
+                    </td>
                     <td>
                         <form th:form="${'row' + position.getId()}">
                             <label th:if="${position.getStatus().equals('true')}">
@@ -97,7 +113,7 @@
                         </form>
                     </td>
                     <td>
-                        <form th:form="${'row' + position.getId()}" action="#" th:action="@{/positions/position}" method="post">
+                        <form th:form="${'row' + position.getId()}">
                             <input style="display: none;" name="mode" type="text" value="UPDATE">
                             <input style="display: none;" name="id" type="text" th:value="${position.getId()}">
                             <input class="button1 danger" type="submit" value="Сохранить"

@@ -129,6 +129,7 @@ body {
 }
 
 .inputText1 {
+    background-color:rgba(0, 0, 0, 0);
     box-sizing: border-box;
     background-position: 14px 12px;
     background-repeat: no-repeat;

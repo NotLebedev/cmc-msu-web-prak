@@ -19,6 +19,8 @@
                     </label>
                     <div th:replace="general :: dropdown('eduLevel', 'Уровень образования', ${educationLevels}, 'educationLevel')"></div>
                     <div th:replace="general :: dropdown('eduPlace', 'Место обучения', ${educationPlaces}, 'educationPlace')"></div>
+                    <div th:replace="general :: dropdown('dep', 'Подразделение', ${departments}, 'department')"></div>
+                    <div th:replace="general :: dropdown('status', 'Статус', ${statuses}, 'status')"></div>
                 </div>
                 <input class="button1" type="submit" value="Применить" />
                 <input class="button1 danger" type="reset" value="Сбросить" />

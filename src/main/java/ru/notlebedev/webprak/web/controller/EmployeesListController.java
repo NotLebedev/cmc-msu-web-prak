@@ -52,7 +52,7 @@ public class EmployeesListController {
                 .build();
 
         Collection<Employee> employeesDisplayed = employeeDAO.getByFilter(filter);
-        if (!department.isEmpty())
+        if (department != null && !department.isEmpty())
             employeesDisplayed.removeIf(employee -> employee.getPositions().stream()
                     .peek(positionHistoryDAO::initialize)
                     .filter(pos -> pos.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
@@ -64,7 +64,7 @@ public class EmployeesListController {
                     .map(Position::getDepartment)
                     .map(Department::getName)
                     .noneMatch(str -> str.equals(department)));
-        if (!status.isEmpty()) {
+        if (status != null && !status.isEmpty()) {
             PositionHistoryEntry.Status expected = status.equals("Работает") ? PositionHistoryEntry.Status.ACTIVE :
                     PositionHistoryEntry.Status.FINISHED;
             employeesDisplayed.removeIf(employee -> {

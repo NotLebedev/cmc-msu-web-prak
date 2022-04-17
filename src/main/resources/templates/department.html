@@ -54,6 +54,8 @@
                 <tr>
                     <th>Должность</th>
                     <th>Сотрудник</th>
+                    <th>Описание</th>
+                    <th>Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,13 +63,22 @@
                     <td style="border-left: none; border-right: none;">Пусто</td>
                 </tr>
                 <tr th:each="position : ${department.getPositions()}">
-                    <td style="border-left: none; border-right: none;" th:text="${position.getName()}"></td>
+                    <td th:text="${position.getName()}"></td>
                     <td th:if="${position.getEmployeeId() != -1}" style="border-left: none; border-right: none;">
                         <a th:href="${'/employees/employee?id=' + position.getEmployeeId()}"
                            th:text="${position.getEmployee()}"></a>
                     </td>
                     <td th:if="${position.getEmployeeId() == -1}" style="border-left: none; border-right: none;">
                         Должность свободна
+                    </td>
+                    <td th:text="${position.getDescription()}"></td>
+                    <td>
+                        <form action="#" th:action="@{/positions/position}" method="post">
+                        <input style="display: none;" name="mode" type="text" value="DELETE">
+                        <input style="display: none;" name="шв" type="text" th:value="${position.getId()}">
+                        <input class="button1 danger" type="submit" value="Закрыть"
+                               onclick="return confirm('Закрыть должность?')"/>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

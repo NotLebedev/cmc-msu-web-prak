@@ -212,24 +212,31 @@ public class DepartmentController {
                                 .map(PositionHistoryEntry::getEmployee)
                                 .findAny().orElse(null);
 
-                        if (emp != null)
-                            return new PositionEntry(pos.getName(), emp.getName(), emp.getId());
-                        else
-                            return new PositionEntry(pos.getName(), "Не занято", -1L);
+                        return new PositionEntry(pos, emp);
                     })
                     .collect(Collectors.toList());
         }
 
         @Getter
         class PositionEntry {
+            private final Long id;
             private final String name;
             private final String employee;
             private final Long employeeId;
 
-            PositionEntry(String name, String employee, Long employeeId) {
-                this.name = name;
-                this.employee = employee;
-                this.employeeId = employeeId;
+            private final String description;
+
+            PositionEntry(Position pos, Employee emp) {
+                this.id = pos.getId();
+                this.name = pos.getName();
+                if (emp != null) {
+                    this.employee = emp.getName();
+                    this.employeeId = emp.getId();
+                } else {
+                    this.employee = "";
+                    this.employeeId = -1L;
+                }
+                this.description = pos.getDescription();
             }
         }
     }

@@ -8,7 +8,37 @@
 </head>
 <body class="site">
 <main class="site-content">
+    <script th:src="@{/js/dropdown.js}"></script>
+    <h1 th:if="${mode.equals(mode.UPDATE)}">Информация о подразделении</h1>
+    <h1 th:if="${mode.equals(mode.CREATE)}">Добавить подразделение</h1>
 
+    <form action="#" th:action="${'/departments/department?id=' + department.getId()}" method="post">
+        <input style="display: none;" name="mode" type="text" th:value="${mode.toString()}">
+        <input th:if="${mode.equals(mode.UPDATE)}" style="display: none;" name="id" type="text"
+               th:value="${department.getId()}">
+
+        <div>
+            <label>
+                Название подразделения
+                <input style="max-width: 70vw;" class="inputText1 resizing-input" type="text" name="name"
+                       th:value="${department.getName()}" placeholder="        ">
+            </label>
+        </div>
+
+        <div th:replace="general :: textDropdown('supName', 'Головное подразделение', ${department.getSuperName()},
+            ${departmentsList}, 'superName')"></div>
+
+        <input class="button1" type="submit" value="Сохранить"
+               onclick="return confirm('Сохранить изменения?')"/>
+    </form>
+
+    <form action="#" th:action="@{/departments/department}" method="post"
+          th:if="${mode.equals(mode.UPDATE)}">
+        <input style="display: none;" name="mode" type="text" value="DELETE">
+        <input style="display: none;" name="id" type="text" th:value="${department.getId()}">
+        <input class="button1 danger" type="submit" value="Закрыть подразделение"
+               onclick="return confirm('Закрыть подразделение и все должности?')"/>
+    </form>
 </main>
 
 <footer th:insert="general :: footer"></footer>

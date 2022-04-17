@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.notlebedev.webprak.model.dao.DepartmentDAO;
 import ru.notlebedev.webprak.model.entity.Department;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class DepartmentController {
@@ -22,6 +24,11 @@ public class DepartmentController {
     public String department(
             @RequestParam(value = "id", required = false) Long id,
             Model model) {
+        Collection<String> departmentList = departmentDAO.findAll().stream()
+                .map(Department::getName)
+                .collect(Collectors.toList());
+        model.addAttribute("departmentsList", departmentList);
+
         if (id == null) {
             model.addAttribute("mode", Mode.CREATE);
 

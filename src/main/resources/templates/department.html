@@ -47,7 +47,33 @@
                onclick="return confirm('Возобновить работу подразделения?')"/>
     </form>
 
-    
+    <div th:if="${mode.equals(mode.UPDATE)}">
+        <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+            <table class="autoTable" style="width: fit-content;">
+                <thead>
+                <tr>
+                    <th>Должность</th>
+                    <th>Сотрудник</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${department.getPositions().isEmpty()}">
+                    <td style="border-left: none; border-right: none;">Пусто</td>
+                </tr>
+                <tr th:each="position : ${department.getPositions()}">
+                    <td style="border-left: none; border-right: none;" th:text="${position.getName()}"></td>
+                    <td th:if="${position.getEmployeeId() != -1}" style="border-left: none; border-right: none;">
+                        <a th:href="${'/employees/employee?id=' + position.getEmployeeId()}"
+                           th:text="${position.getEmployee()}"></a>
+                    </td>
+                    <td th:if="${position.getEmployeeId() == -1}" style="border-left: none; border-right: none;">
+                        Должность свободна
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </main>
 
 <footer th:insert="general :: footer"></footer>

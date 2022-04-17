@@ -10,11 +10,14 @@ import ru.notlebedev.webprak.model.dao.DepartmentDAO;
 import ru.notlebedev.webprak.model.dao.PositionDAO;
 import ru.notlebedev.webprak.model.dao.PositionHistoryDAO;
 import ru.notlebedev.webprak.model.entity.Department;
+import ru.notlebedev.webprak.model.entity.Employee;
 import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -112,11 +115,13 @@ public class DepartmentController {
                 return "error";
 
             Department department = dep.get();
+            departmentDAO.initialize(department);
 
             // Close all positions
             department.getPositions().stream()
                     .peek(position -> position.setStatus(Position.Status.CLOSED))
                     .peek(positionDAO::updateSave)
+                    .peek(positionDAO::initialize)
                     .flatMap(position -> position.getPositionHistory().stream())
                     .filter(e -> e.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
                     .peek(e -> e.setStatus(PositionHistoryEntry.Status.FINISHED))
@@ -163,12 +168,14 @@ public class DepartmentController {
     public enum Mode {UPDATE, CREATE}
 
     @Getter
-    private static class DepartmentEntry {
+    private class DepartmentEntry {
         private final Long id;
         private final String name;
         private final String superName;
         private final Long superId;
         private final Department.Status status;
+
+        private final List<PositionEntry> positions;
 
         private DepartmentEntry() {
             id = null;
@@ -176,6 +183,7 @@ public class DepartmentController {
             superName = null;
             superId = null;
             status = null;
+            positions = Collections.emptyList();
         }
 
         private DepartmentEntry(Department department) {
@@ -189,6 +197,40 @@ public class DepartmentController {
                 superId = null;
             }
             status = department.getStatus();
+
+            positions = department.getPositions().stream()
+                    .map(position -> positionDAO.findById(position.getId()))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .peek(positionDAO::initialize)
+                    .map(pos -> {
+                        Employee emp = pos.getPositionHistory().stream()
+                                .filter(e -> e.getStatus().equals(PositionHistoryEntry.Status.ACTIVE))
+                                .map(e -> positionHistoryDAO.findById(e.getId()))
+                                .filter(Optional::isPresent)
+                                .map(Optional::get)
+                                .map(PositionHistoryEntry::getEmployee)
+                                .findAny().orElse(null);
+
+                        if (emp != null)
+                            return new PositionEntry(pos.getName(), emp.getName(), emp.getId());
+                        else
+                            return new PositionEntry(pos.getName(), "Не занято", -1L);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        @Getter
+        class PositionEntry {
+            private final String name;
+            private final String employee;
+            private final Long employeeId;
+
+            PositionEntry(String name, String employee, Long employeeId) {
+                this.name = name;
+                this.employee = employee;
+                this.employeeId = employeeId;
+            }
         }
     }
 }

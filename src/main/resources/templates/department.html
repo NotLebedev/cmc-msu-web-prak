@@ -113,8 +113,51 @@
                     <td>
                         <input style="display: none;" name="mode" type="text" value="UPDATE" th:form="${'row' + position.getId()}">
                         <input style="display: none;" name="id" type="text" th:value="${position.getId()}" th:form="${'row' + position.getId()}">
+                        <input style="display: none;" name="depId" type="text" th:value="${department.getId()}" th:form="${'row' + position.getId()}">
                         <input class="button1 danger" type="submit" value="Сохранить" th:form="${'row' + position.getId()}"
                                onclick="return confirm('Сохранить изменения должности?')"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">Новая должность</td>
+                </tr>
+                <tr> <!--- New position -->
+                    <td>
+                        <form id="newPosition"  action="#"
+                              th:action="@{/positions/position}" method="post">
+                            <label>
+                                <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);"
+                                       class="inputText1 resizing-input" type="text" name="name"
+                                       value="" placeholder="        ">
+                            </label>
+                        </form>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <label>
+                            <input style="max-width: 30vw; background-color:rgba(0, 0, 0, 0);" class="inputText1 resizing-input" type="text"
+                                   name="description" th:form="newPosition"
+                                   value="" placeholder="        ">
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <input type="text" style="display: none;" name="status"
+                                   value="true" form="newPosition"
+                                   id="qNew">
+                            <input class="button1" form="newPosition"
+                                   value="Должность открыта" type="button"
+                                   onclick="flipValue(this, 'qNew',
+                               'Должность открыта', 'Должность закрыта');">
+                        </label>
+                    </td>
+                    <td>
+                        <input style="display: none;" name="mode" type="text" value="CREATE" form="newPosition">
+                        <input style="display: none;" name="depId" type="text" th:value="${department.getId()}" form="newPosition">
+                        <input style="display: none;" name="id" type="text" value="-1" form="newPosition">
+                        <input class="button1 danger" type="submit" value="Создать" form="newPosition"
+                               onclick="return confirm('Добавить должность?')"/>
                     </td>
                 </tr>
                 </tbody>

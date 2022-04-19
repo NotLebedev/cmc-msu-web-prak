@@ -62,6 +62,7 @@ public class DepartmentController {
     public String position(
             @RequestParam(value = "mode") String mode,
             @RequestParam(value = "id") Long id,
+            @RequestParam(value = "depId") Long depId,
             @RequestParam(value = "name") String name,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "status") String status,
@@ -88,6 +89,17 @@ public class DepartmentController {
                         .forEach(positionHistoryDAO::updateSave);
 
             positionDAO.updateSave(position);
+        } else if (mode.equals("CREATE")) {
+            if (name.isBlank())
+                return "error";
+            departmentId = depId;
+            Optional<Department> dep = departmentDAO.findById(depId);
+            if (dep.isEmpty())
+                return "error";
+            Position position = new Position(dep.get(), name, description,
+                    status.equals("true") ? Position.Status.ACTIVE : Position.Status.CLOSED);
+
+            positionDAO.save(position);
         }
 
         return "redirect:/departments/department?id=" + departmentId;

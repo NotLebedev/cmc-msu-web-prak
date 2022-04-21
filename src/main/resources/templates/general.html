@@ -63,4 +63,29 @@
             </div>
         </label>
     </div>
+
+    <div class="dropdown" th:fragment="mapDropdown(name, nameString, val, requestParam)">
+        <input type="text" style="display: none;" th:name="${requestParam}" th:id="${name + 'Input'}">
+        <button th:arg0="${name + 'Drop'}"
+                onclick="dropFunction(this.getAttribute('arg0'))" class="dropbtn" type="button"
+                th:text="${nameString}"></button>
+        <div th:id="${name + 'Drop'}" class="dropdown-content"
+             th:arg0="${name + 'Drop'}"
+             onmouseleave="dropFunction(this.getAttribute('arg0'))">
+            <input type="text" placeholder="Search.." th:id="${name + 'FilterInput'}" class="dropInput"
+                   th:arg0="${name + 'FilterInput'}"
+                   th:arg1="${name + 'Drop'}"
+                   onkeyup="filterFunction(this.getAttribute('arg0'), this.getAttribute('arg1'))">
+            <div>
+                <button type="button" th:value
+                        th:arg0="${name + 'Input'}"
+                        onclick="updateInput(this.getAttribute('arg0'), this)">Нет</button>
+            </div>
+            <div th:each="place : ${val}">
+                <button type="button" th:text="${place.getFirst()}" th:value="${place.getSecond()}"
+                        th:arg0="${name + 'Input'}"
+                        onclick="updateInput(this.getAttribute('arg0'), this)"></button>
+            </div>
+        </div>
+    </div>
 </body>

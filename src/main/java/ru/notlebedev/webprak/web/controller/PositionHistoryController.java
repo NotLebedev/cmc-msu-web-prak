@@ -10,7 +10,9 @@ import ru.notlebedev.webprak.model.dao.PositionDAO;
 import ru.notlebedev.webprak.model.dao.PositionHistoryDAO;
 import ru.notlebedev.webprak.model.entity.Department;
 import ru.notlebedev.webprak.model.entity.Employee;
+import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
+import ru.notlebedev.webprak.util.FinalNonNullPair;
 
 import java.util.Date;
 import java.util.Optional;
@@ -44,6 +46,19 @@ public class PositionHistoryController {
                 .map(PositionListEntry::new)
                 .sorted()
                 .collect(Collectors.toList()));
+
+        model.addAttribute("openPositions", positionDAO.findAll().stream()
+                .filter(pos -> pos.getPositionHistory().stream()
+                        .noneMatch(e -> e.getStatus().equals(PositionHistoryEntry.Status.ACTIVE)))
+                .filter(e -> e.getStatus().equals(Position.Status.ACTIVE))
+                .map(e -> positionDAO.findById(e.getId()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(e -> new FinalNonNullPair<>(e.getDepartment().getName() + " : " + e.getName(),
+                        e.getId()))
+                .collect(Collectors.toList()));
+
+
 
         return "history";
     }

@@ -22,6 +22,7 @@ public class ThymeleafConfigurator {
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(!thymeleaf_no_cache);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -41,6 +42,7 @@ public class ThymeleafConfigurator {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine);
         viewResolver.setOrder(1);
+        viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setViewNames(new String[] {".html", ".xhtml"});
         return viewResolver;
     }

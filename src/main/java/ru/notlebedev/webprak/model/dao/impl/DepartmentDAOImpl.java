@@ -40,8 +40,7 @@ public class DepartmentDAOImpl extends GenericDAOImpl<Department, Long>
 
     @Override
     public Collection<Department> getHierarchy() {
-        Collection<Department> departments = getByFilter(DepartmentDAO.getFilterBuilder()
-                .status(Department.Status.ACTIVE).build());
+        Collection<Department> departments = findAll();
 
         return departments.stream()
                 .filter(department -> Objects.isNull(department.getDepartmentSuper()))

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/dropdown.css}"/>
+</head>
+<body class="site">
+<main class="site-content">
+  <script th:src="@{/js/dropdown.js}"></script>
+  <script th:src="@{/js/buttons.js}"></script>
+  <h3 th:text="${empName + ', история должностей'}"></h3>
+
+  <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+    <table class="autoTable" style="width: fit-content;">
+      <thead>
+      <tr>
+        <th>Подразделение</th>
+        <th>Должность</th>
+        <th>Дата вступления в должность</th>
+        <th>Дата окончания</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${list.isEmpty()}">
+        <td style="border-left: none; border-right: none;">Пусто</td>
+      </tr>
+      <tr th:each="position : ${list}">
+        <td>
+          <a th:href="${'/departments/department' + position.getDepartmentId()}"
+            th:text="${position.getDepartmentName()}"></a>
+        </td>
+        <td th:text="${position.getName()}"></td>
+        <td th:text="${position.getDateStart()}"></td>
+        <td th:text="${position.getDateEnd()}"></td>
+        <td>
+          <form th:if="${position.isCurrent()}" action="#"
+                th:action="@{/positions/history}" method="post">
+            <input style="display: none;" name="mode" type="text" value="FIRE">
+            <input class="button1 danger" type="submit" value="Уволить"
+                   onclick="return confirm('Уволить с должности?')"/>
+          </form>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">Назначить на должность</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer th:insert="general :: footer"></footer>
+</body>
+
+</html>

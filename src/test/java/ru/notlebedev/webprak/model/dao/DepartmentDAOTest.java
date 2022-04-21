@@ -119,7 +119,7 @@ public class DepartmentDAOTest {
     @Test
     void testGetHierarchy() {
         Collection<Department> heads = departmentDAO.getHierarchy();
-        assertEquals(1, heads.size());
+        assertEquals(3, heads.size());
 
         List<Department> departments = new ArrayList<>();
         departments.add(new Department("ООО \"Рога и Копыта\"", ACTIVE));
@@ -127,6 +127,9 @@ public class DepartmentDAOTest {
         departments.add(new Department("Заготовка копыт", ACTIVE));
         departments.add(new Department("Заготовка рогов", ACTIVE));
         departments.add(new Department("Заготовки", ACTIVE));
+
+        departments.add(new Department("Пиар", DEFUNCT));
+        departments.add(new Department("Заготовка хвостов", DEFUNCT));
 
         departments.get(1).setDepartmentSuper(departments.get(0));
         departments.get(4).setDepartmentSuper(departments.get(0));

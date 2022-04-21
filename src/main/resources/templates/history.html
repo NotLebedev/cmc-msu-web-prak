@@ -39,6 +39,7 @@
           <form th:if="${position.isCurrent()}" action="#"
                 th:action="@{/positions/history}" method="post">
             <input style="display: none;" name="mode" type="text" value="FIRE">
+            <input style="display: none;" name="id" type="text" th:value="${empId}">
             <input class="button1 danger" type="submit" value="Уволить"
                    onclick="return confirm('Уволить с должности?')"/>
           </form>
@@ -50,12 +51,13 @@
       <tr>
         <td colspan="4">
           <form id="assign" action="#" th:action="@{/positions/history}" method="post">
-            <input style="display: none;" name="mode" type="text" value="ASSIGN">
             <div th:replace="general :: mapDropdown('newPosition', 'Новая должность',
               ${openPositions}, 'newPosition')"></div>
           </form>
         </td>
         <td>
+          <input style="display: none;" name="id" form="assign" type="text" th:value="${empId}">
+          <input style="display: none;" name="mode" form="assign" type="text" value="ASSIGN">
           <input class="button1 danger" type="submit" value="Назначить" form="assign"
                  onclick="return confirm('Назначить на должность? (Уволит с текущей занимаемой должности)')"/>
         </td>

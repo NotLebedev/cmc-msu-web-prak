@@ -12,8 +12,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
 public class ThymeleafConfigurator {
-    @Value("${thymeleaf_no_cache}")
-    private Boolean thymeleaf_no_cache = false;
+    @Value("${thymeleaf_no_cache:false}")
+    private Boolean thymeleaf_no_cache;
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){

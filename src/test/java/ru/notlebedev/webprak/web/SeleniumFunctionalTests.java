@@ -50,17 +50,13 @@ public class SeleniumFunctionalTests {
     public void testEmpFind() {
         driver.get("localhost:" + port + "/");
         driver.findElement(By.linkText("Список служащих")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         driver.findElement(By.name("name")).click();
         driver.findElement(By.name("name")).sendKeys("Попов");
         driver.findElement(By.xpath("//*[contains(text(), 'Подразделение')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Заготовки')]")).click();
         driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         List<WebElement> elements = driver.findElements(By
                 .xpath("//table[@class='autoTable']/tbody/tr//a"));
         assertEquals(1, elements.size());
@@ -71,17 +67,13 @@ public class SeleniumFunctionalTests {
     public void testEmpFindFail() {
         driver.get("localhost:" + port + "/");
         driver.findElement(By.linkText("Список служащих")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         driver.findElement(By.name("name")).click();
         driver.findElement(By.name("name")).sendKeys("Безымяненко");
         driver.findElement(By.xpath("//*[contains(text(), 'Подразделение')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Заготовки')]")).click();
         driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         List<WebElement> elements = driver.findElements(By
                 .xpath("//table[@class='autoTable']/tbody/tr/td[@colspan='3']"));
         assertEquals(1, elements.size());
@@ -92,27 +84,19 @@ public class SeleniumFunctionalTests {
     public void testEmpHistory() {
         driver.get("localhost:" + port + "/");
         driver.findElement(By.linkText("Список служащих")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         driver.findElement(By.name("name")).click();
         driver.findElement(By.name("name")).sendKeys("Прасковья Аркадьевна");
         driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         List<WebElement> elements = driver.findElements(By
                 .xpath("//table[@class='autoTable']/tbody/tr//a"));
         assertEquals(1, elements.size());
         assertEquals("Прасковья Аркадьевна", elements.get(0).getText());
         elements.get(0).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         driver.findElement(By.xpath("//a[contains(text(), 'История занимаемых должностей')]")).click();
-        new WebDriverWait(driver, 1).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete"));
+        waitUntilLoads();
         elements = driver.findElements(By
                 .xpath("//table[@class='autoTable']/tbody/tr"));
         assertEquals(4, elements.size());
@@ -124,6 +108,12 @@ public class SeleniumFunctionalTests {
             String expectedPosition = expected.get(i);
             assertEquals(expectedPosition, element.findElements(By.xpath("./td")).get(1).getText());
         }
+    }
+
+    private void waitUntilLoads() {
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
     }
 
     @BeforeEach

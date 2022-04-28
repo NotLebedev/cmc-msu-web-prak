@@ -14,7 +14,7 @@ public class WebDriverConfigurator {
         System.setProperty("webdriver.firefox.driver", "geckodriver.exe");
 
         FirefoxOptions options = new FirefoxOptions();
-        options.setHeadless(true);
+        options.setHeadless(false);
 
         return new FirefoxDriver(options);
     }

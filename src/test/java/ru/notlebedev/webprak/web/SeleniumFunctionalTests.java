@@ -68,6 +68,27 @@ public class SeleniumFunctionalTests {
     }
 
     @Test
+    public void testEmpFindFail() {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список служащих")).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        driver.findElement(By.name("name")).click();
+        driver.findElement(By.name("name")).sendKeys("Безымяненко");
+        driver.findElement(By.xpath("//*[contains(text(), 'Подразделение')]")).click();
+        driver.findElement(By.xpath("//*[contains(text(), 'Заготовки')]")).click();
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        List<WebElement> elements = driver.findElements(By
+                .xpath("//table[@class='autoTable']/tbody/tr/td[@colspan='3']"));
+        assertEquals(1, elements.size());
+        assertEquals("Служащих по заданному фильтру не найдено.", elements.get(0).getText());
+    }
+
+    @Test
     public void testEmpHistory() {
         driver.get("localhost:" + port + "/");
         driver.findElement(By.linkText("Список служащих")).click();

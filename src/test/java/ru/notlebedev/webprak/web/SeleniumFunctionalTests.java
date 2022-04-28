@@ -67,6 +67,43 @@ public class SeleniumFunctionalTests {
         assertEquals("Попов Сергей Дмитриевич", elements.get(0).getText());
     }
 
+    @Test
+    public void testEmpHistory() {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список служащих")).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        driver.findElement(By.name("name")).click();
+        driver.findElement(By.name("name")).sendKeys("Прасковья Аркадьевна");
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        List<WebElement> elements = driver.findElements(By
+                .xpath("//table[@class='autoTable']/tbody/tr//a"));
+        assertEquals(1, elements.size());
+        assertEquals("Прасковья Аркадьевна", elements.get(0).getText());
+        elements.get(0).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        driver.findElement(By.xpath("//a[contains(text(), 'История занимаемых должностей')]")).click();
+        new WebDriverWait(driver, 1).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+        elements = driver.findElements(By
+                .xpath("//table[@class='autoTable']/tbody/tr"));
+        assertEquals(4, elements.size());
+
+        List<String> expected = List.of("Бухгалтер", "Старший бухгалтер");
+        for (int i = 0; i < 2; i++) {
+            WebElement element = elements.get(i);
+            assertEquals("Бухгалтерия", element.findElement(By.xpath(".//a")).getText());
+            String expectedPosition = expected.get(i);
+            assertEquals(expectedPosition, element.findElements(By.xpath("./td")).get(1).getText());
+        }
+    }
 
     @BeforeEach
     public void fillDB() {

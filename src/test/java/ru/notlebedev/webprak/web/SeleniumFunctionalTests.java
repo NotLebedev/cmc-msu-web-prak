@@ -25,6 +25,7 @@ import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -110,6 +111,44 @@ public class SeleniumFunctionalTests {
         }
     }
 
+    @Test
+    public void testHierarchy() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список подразделений")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//input[@value='Отображать таблицу']")).click();
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
+        waitUntilLoads();
+
+        // Wait until all animations are triggered by js
+        Thread.sleep(100);
+
+        List<String> collapsibleActive = driver.findElements(By
+                .xpath("//button[@class='collapsible active']")).stream()
+                .map(webElement -> webElement.findElement(By.xpath(".//a")))
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        List<String> collapsibleChildless = driver.findElements(By
+                .xpath("//button[@class='collapsible childless']")).stream()
+                .map(webElement -> webElement.findElement(By.xpath(".//a")))
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
+        assertEquals(List.of("ООО Рога и Копыта", "Заготовки"), collapsibleActive);
+        assertEquals(List.of("Бухгалтерия", "Заготовка хвостов"), collapsibleChildless);
+
+        driver.findElements(By.xpath("//button[@class='collapsible active']"))
+                .stream()
+                .filter(webElement -> webElement.findElement(By.xpath(".//a")).getText()
+                        .equals("Заготовки"))
+                .forEach(WebElement::click);
+
+        // Wait until all animations are triggered by js
+        Thread.sleep(100);
+        assertEquals("Заготовки", driver.findElement(By.xpath("//button[@class='collapsible']"))
+                .getText());
+    }
+
     private void waitUntilLoads() {
         new WebDriverWait(driver, 1).until(
                 webDriver -> ((JavascriptExecutor) webDriver)
@@ -125,7 +164,7 @@ public class SeleniumFunctionalTests {
 
         dep1.setDepartmentSuper(dep0);
         dep2.setDepartmentSuper(dep0);
-        dep3.setDepartmentSuper(dep3);
+        dep3.setDepartmentSuper(dep2);
         departmentDAO.save(dep0);
         departmentDAO.save(dep1);
         departmentDAO.save(dep2);

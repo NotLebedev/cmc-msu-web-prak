@@ -25,5 +25,21 @@
       "type": "java.lang.Boolean",
       "description": "Disable Thymeleaf template caching.",
       "defaultValue": "false"
+    },
+    {
+      "name": "test_driver_firefox",
+      "type": "java.lang.String",
+      "description": "Path to gecko driver for selenium tests."
+    },
+    {
+      "name": "test_driver_chrome",
+      "type": "java.lang.String",
+      "description": "Path to chrome driver for selenium tests."
+    },
+    {
+      "name": "test_driver",
+      "type": "java.lang.String",
+      "description": "Type of webdriver to use for selenium tests. Supported drivers: geckodriver, chromedriver.",
+      "defaultValue": "geckodriver"
     }
   ] }

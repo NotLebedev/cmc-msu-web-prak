@@ -149,6 +149,51 @@ public class SeleniumFunctionalTests {
                 .getText());
     }
 
+    @Test
+    public void testAssignPosition() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список подразделений")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//*[contains(text(), 'Заготовка хвостов')]")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//form[@id='newPosition']//input[@name='name']")).sendKeys("Нарезатель хвостов");
+        driver.findElement(By.xpath("//input[@name='description' and @form='newPosition']"))
+                .sendKeys("Нарезает хвосты");
+        driver.findElement(By.xpath("//input[@value='Создать']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//footer//a[text() = 'Главная страница']")).click();
+        waitUntilLoads();
+        driver.findElement(By.linkText("Список служащих")).click();
+        waitUntilLoads();
+        driver.findElement(By.name("name")).click();
+        driver.findElement(By.name("name")).sendKeys("Макар Сергеевич");
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
+        waitUntilLoads();
+        List<WebElement> elements = driver.findElements(By
+                .xpath("//table[@class='autoTable']/tbody/tr//a"));
+        assertEquals(1, elements.size());
+        assertEquals("Макар Сергеевич", elements.get(0).getText());
+        elements.get(0).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//*[contains(text(), 'История занимаемых должностей')]")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//*[contains(text(), 'Новая должность')]")).click();
+        Thread.sleep(100);
+        driver.findElement(By.xpath("//*[contains(text(), 'Нарезатель')]")).click();
+        driver.findElement(By.xpath("//input[@value= 'Назначить']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        Thread.sleep(1000);
+        elements = driver.findElements(By.xpath("//tbody/tr"));
+        assertEquals(3, elements.size());
+        elements = elements.get(0).findElements(By.xpath("./td"));
+        assertEquals(5, elements.size());
+        assertEquals("Заготовка хвостов", elements.get(0).findElement(By.xpath("./a")).getText());
+        assertEquals("Нарезатель хвостов", elements.get(1).getText());
+        assertEquals("Текущая должность", elements.get(3).getText());
+    }
+
     private void waitUntilLoads() {
         new WebDriverWait(driver, 1).until(
                 webDriver -> ((JavascriptExecutor) webDriver)
@@ -191,11 +236,14 @@ public class SeleniumFunctionalTests {
                 "Высшее", "Московский Финансовый Университет");
         Employee emp3 = new Employee("Попов Сергей Дмитриевич", "Ленинский пр., д. 14 к.1",
                 "Среднее", "Московский технологический колледж");
+        Employee emp4 = new Employee("Макар Сергеевич", "Ленинский пр., д. 14 к.1",
+                "Среднее", "Московский технологический колледж");
 
         employeeDAO.save(emp0);
         employeeDAO.save(emp1);
         employeeDAO.save(emp2);
         employeeDAO.save(emp3);
+        employeeDAO.save(emp4);
 
         PositionHistoryEntry entr0 = new PositionHistoryEntry(pos0, emp0, PositionHistoryEntry.Status.ACTIVE,
                 Date.valueOf("2022-01-01"));

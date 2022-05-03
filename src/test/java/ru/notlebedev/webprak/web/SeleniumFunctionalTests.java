@@ -24,6 +24,7 @@ import ru.notlebedev.webprak.model.entity.Position;
 import ru.notlebedev.webprak.model.entity.PositionHistoryEntry;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -192,6 +193,31 @@ public class SeleniumFunctionalTests {
         assertEquals("Заготовка хвостов", elements.get(0).findElement(By.xpath("./a")).getText());
         assertEquals("Нарезатель хвостов", elements.get(1).getText());
         assertEquals("Текущая должность", elements.get(3).getText());
+    }
+
+    @Test
+    public void testAddNewEmployee() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список служащих")).click();
+        waitUntilLoads();
+        driver.findElement(By.linkText("Добавить служащего")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//label/input[@name='name']")).sendKeys("Иван Иванович");
+        driver.findElement(By.xpath("//label/input[@name='address']")).sendKeys("Красная площадь");
+        driver.findElement(By.xpath("//label/input[@name='educationLevel']")).sendKeys("Высшее");
+        driver.findElement(By.xpath("//label/input[@name='educationPlace']")).sendKeys("МГУ");
+        driver.findElement(By.xpath("//input[@class='button1' and @type='submit']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        Thread.sleep(100);
+        Collection<Employee> result = employeeDAO.getByFilter(EmployeeDAO.Filter.builder()
+                .name("Иван Иванович").build());
+        assertEquals(1, result.size());
+        Employee emp = result.stream().findAny().get();
+        assertEquals("Иван Иванович", emp.getName());
+        assertEquals("Красная площадь", emp.getAddress());
+        assertEquals("Высшее", emp.getEducationLevel());
+        assertEquals("МГУ", emp.getEducationPlace());
     }
 
     private void waitUntilLoads() {

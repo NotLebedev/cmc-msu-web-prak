@@ -213,11 +213,33 @@ public class SeleniumFunctionalTests {
         Collection<Employee> result = employeeDAO.getByFilter(EmployeeDAO.Filter.builder()
                 .name("Иван Иванович").build());
         assertEquals(1, result.size());
-        Employee emp = result.stream().findAny().get();
+        Employee emp = result.stream().findAny().orElse(new Employee());
         assertEquals("Иван Иванович", emp.getName());
         assertEquals("Красная площадь", emp.getAddress());
         assertEquals("Высшее", emp.getEducationLevel());
         assertEquals("МГУ", emp.getEducationPlace());
+    }
+
+    @Test
+    public void testAddDepartment() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список подразделений")).click();
+        waitUntilLoads();
+        driver.findElement(By.linkText("Добавить подразделение")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//label/input[@name='name']")).sendKeys("Пиар");
+        driver.findElement(By.xpath("//label/input[@name='superName']")).sendKeys("ООО Рога и Копыта");
+        driver.findElement(By.xpath("//input[@class='button1' and @type='submit']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        Thread.sleep(100);
+
+        Collection<Department> result = departmentDAO.getByFilter(DepartmentDAO.Filter.builder()
+                .name("Пиар").build());
+        assertEquals(1, result.size());
+        Department dep = result.stream().findAny().orElse(new Department());
+        assertEquals("Пиар",dep.getName());
+        assertEquals("ООО Рога и Копыта", dep.getDepartmentSuper().getName());
     }
 
     private void waitUntilLoads() {

@@ -123,13 +123,14 @@ public class DepartmentController {
             Department department = dep.get();
             if (name != null)
                 department.setName(name);
-            if (superName != null) {
+            if (superName != null && !superName.isEmpty()) {
                 Collection<Department> superDep = departmentDAO.getByFilter(DepartmentDAO.Filter.builder()
                         .name(superName)
                         .build());
                 if (superDep.size() == 1)
                     department.setDepartmentSuper(superDep.stream().findAny().get());
-            }
+            } else
+                department.setDepartmentSuper(null);
 
             departmentDAO.updateSave(department);
 

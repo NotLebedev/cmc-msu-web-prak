@@ -196,7 +196,7 @@ public class SeleniumFunctionalTests {
     }
 
     @Test
-    public void testAddNewEmployee() throws InterruptedException {
+    public void testAddEmployee() throws InterruptedException {
         driver.get("localhost:" + port + "/");
         driver.findElement(By.linkText("Список служащих")).click();
         waitUntilLoads();
@@ -240,6 +240,43 @@ public class SeleniumFunctionalTests {
         Department dep = result.stream().findAny().orElse(new Department());
         assertEquals("Пиар",dep.getName());
         assertEquals("ООО Рога и Копыта", dep.getDepartmentSuper().getName());
+    }
+
+    @Test
+    public void testEditEmployee() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список служащих")).click();
+        waitUntilLoads();
+        driver.findElement(By.name("name")).click();
+        driver.findElement(By.name("name")).sendKeys("Макар Сергеевич");
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Применить']")).click();
+        waitUntilLoads();
+        List<WebElement> elements = driver.findElements(By
+                .xpath("//table[@class='autoTable']/tbody/tr//a"));
+        assertEquals(1, elements.size());
+        assertEquals("Макар Сергеевич", elements.get(0).getText());
+        elements.get(0).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//label/input[@name='name']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='name']")).sendKeys("Иван Иванович");
+        driver.findElement(By.xpath("//label/input[@name='address']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='address']")).sendKeys("Красная площадь");
+        driver.findElement(By.xpath("//label/input[@name='educationLevel']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='educationLevel']")).sendKeys("Высшее");
+        driver.findElement(By.xpath("//label/input[@name='educationPlace']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='educationPlace']")).sendKeys("МГУ");
+        driver.findElement(By.xpath("//input[@class='button1' and @type='submit']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        Thread.sleep(1000);
+        Collection<Employee> result = employeeDAO.getByFilter(EmployeeDAO.Filter.builder()
+                .name("Иван Иванович").build());
+        assertEquals(1, result.size());
+        Employee emp = result.stream().findAny().orElse(new Employee());
+        assertEquals("Иван Иванович", emp.getName());
+        assertEquals("Красная площадь", emp.getAddress());
+        assertEquals("Высшее", emp.getEducationLevel());
+        assertEquals("МГУ", emp.getEducationPlace());
     }
 
     private void waitUntilLoads() {

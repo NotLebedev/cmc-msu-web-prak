@@ -279,6 +279,30 @@ public class SeleniumFunctionalTests {
         assertEquals("МГУ", emp.getEducationPlace());
     }
 
+    @Test
+    public void testEditDepartment() throws InterruptedException {
+        driver.get("localhost:" + port + "/");
+        driver.findElement(By.linkText("Список подразделений")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//*[contains(text(), 'Заготовка хвостов')]")).click();
+        waitUntilLoads();
+        driver.findElement(By.xpath("//label/input[@name='name']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='name']")).sendKeys("Пиар");
+        driver.findElement(By.xpath("//label/input[@name='superName']")).clear();
+        driver.findElement(By.xpath("//label/input[@name='superName']")).sendKeys("ООО Рога и Копыта");
+        driver.findElement(By.xpath("//form[@action='/departments/department']//input[@value='Сохранить']")).click();
+        driver.switchTo().alert().accept();
+        waitUntilLoads();
+        Thread.sleep(1000);
+
+        Collection<Department> result = departmentDAO.getByFilter(DepartmentDAO.Filter.builder()
+                .name("Пиар").build());
+        assertEquals(1, result.size());
+        Department dep = result.stream().findAny().orElse(new Department());
+        assertEquals("Пиар",dep.getName());
+        assertEquals("ООО Рога и Копыта", dep.getDepartmentSuper().getName());
+    }
+
     private void waitUntilLoads() {
         new WebDriverWait(driver, 1).until(
                 webDriver -> ((JavascriptExecutor) webDriver)
